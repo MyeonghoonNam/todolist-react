@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import TodosProvider from '@contexts/TodosProvider';
 import Header from '@components/Header';
 import InputForm from '@components/InputForm';
-import TodosProvider from '@contexts/TodosProvider';
+import TodoList from '@components/TodoList';
 
 const Container = styled.div`
 	display: flex;
@@ -18,6 +19,7 @@ const App = () => {
 			<Container>
 				<Header />
 				<InputForm />
+				<TodoList />
 			</Container>
 		</TodosProvider>
 	);
