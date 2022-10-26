@@ -13,16 +13,22 @@ module.exports = {
 		builder: '@storybook/builder-webpack5',
 	},
 	webpackFinal: async (config) => {
-		return {
-			...config,
-			resolve: {
-				...config.resolve,
-				alias: {
-					'@assets': path.resolve(__dirname, '../src/assets'),
-					'@components': path.resolve(__dirname, '../src/components'),
-					'@hooks': path.resolve(__dirname, '../src/hooks'),
-				},
-			},
+		const oneOfRule = config.module.rules.find((rule) => rule.oneOf);
+		const babelRule = oneOfRule.oneOf.find((rule) =>
+			rule.loader?.includes('babel-loader'),
+		);
+
+		babelRule.options.presets.push('@emotion/babel-preset-css-prop');
+
+		config.resolve.alias = {
+			...config.resolve.alias,
+			'@assets': path.resolve(__dirname, '../src/assets'),
+			'@components': path.resolve(__dirname, '../src/components'),
+			'@contexts': path.resolve(__dirname, '../src/contexts'),
+			'@hooks': path.resolve(__dirname, '../src/hooks'),
+			'@styles': path.resolve(__dirname, '../src/styles'),
 		};
+
+		return config;
 	},
 };
