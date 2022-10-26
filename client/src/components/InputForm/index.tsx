@@ -3,6 +3,12 @@ import { FaSearch, FaPlusCircle } from 'react-icons/fa';
 import font from '@assets/font';
 import color from '@assets/color';
 import { css } from '@emotion/react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { useTodos } from '@contexts/TodosProvider';
+
+export interface Props {
+	onSubmit?: () => void;
+}
 
 const Container = styled.form`
 	position: relative;
@@ -55,14 +61,31 @@ const PlusButtonStyle = css`
 	}
 `;
 
-const InputForm = () => {
+const InputForm = ({ onSubmit }: Props) => {
+	const [keyword, setKeyword] = useState('');
+	const { addTodo } = useTodos();
+
+	const handleSubmit = useCallback(
+		(e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			addTodo(keyword);
+			setKeyword(() => '');
+			onSubmit && onSubmit();
+		},
+		[keyword, addTodo, onSubmit],
+	);
+
+	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+		setKeyword(() => e.target.value);
+	}, []);
+
 	return (
-		<Container>
+		<Container onSubmit={handleSubmit}>
 			<Icon>
 				<FaSearch />
 			</Icon>
 
-			<Input type="text" autoFocus />
+			<Input type="text" value={keyword} onChange={handleChange} autoFocus />
 
 			<Button type="submit" css={PlusButtonStyle}>
 				<FaPlusCircle />
