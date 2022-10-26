@@ -6,6 +6,8 @@ import Todo from '@interfaces/Todo';
 interface TodoContext {
 	todos: Todo[];
 	addTodo: (content: string) => void;
+	toggleTodo: (id: string) => void;
+	removeTodo: (id: string) => void;
 }
 
 const TodoContext = createContext<TodoContext>({} as TodoContext);
@@ -34,8 +36,26 @@ const TodosProvider = ({ children, initialState = [] }: Props) => {
 		[setTodos, todos],
 	);
 
+	const toggleTodo = useCallback(
+		(id: string) => {
+			setTodos(
+				todos.map((todo: Todo) =>
+					todo.id === id ? { ...todo, complete: !todo.complete } : todo,
+				),
+			);
+		},
+		[setTodos, todos],
+	);
+
+	const removeTodo = useCallback(
+		(id: string) => {
+			setTodos(todos.filter((todo: Todo) => todo.id !== id));
+		},
+		[setTodos, todos],
+	);
+
 	return (
-		<TodoContext.Provider value={{ todos, addTodo }}>
+		<TodoContext.Provider value={{ todos, addTodo, toggleTodo, removeTodo }}>
 			{children}
 		</TodoContext.Provider>
 	);
