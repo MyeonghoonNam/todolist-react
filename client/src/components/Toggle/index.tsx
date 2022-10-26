@@ -12,8 +12,8 @@ const Container = styled.label`
 	align-items: center;
 	user-select: none;
 	width: 30px;
+	min-width: 30px;
 	height: 30px;
-	border-radius: 50%;
 `;
 
 const CheckBox = styled.input`
@@ -23,6 +23,7 @@ const CheckBox = styled.input`
 	appearance: none;
 	border: 1.5px solid gainsboro;
 	border-radius: 50%;
+	cursor: pointer;
 
 	&:checked {
 		border-color: transparent;
