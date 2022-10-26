@@ -1,12 +1,7 @@
 import useLocalStorage from '@hooks/useLocalStorage';
 import { createContext, useCallback, useContext } from 'react';
 import uuid from 'react-uuid';
-
-interface Todo {
-	id: string;
-	content: string;
-	complete: boolean;
-}
+import Todo from '@interfaces/Todo';
 
 interface TodoContext {
 	todos: Todo[];
