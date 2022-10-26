@@ -69,7 +69,10 @@
 					"{}": false
 				}
 			}
-		]
+		],
+		"no-unused-expressions": ["error", { "allowShortCircuit": true }],
+		"import/prefer-default-export": "off",
+		"react/jsx-no-constructed-context-values": "off"
 	},
 	"settings": {
 		"import/parsers": {
