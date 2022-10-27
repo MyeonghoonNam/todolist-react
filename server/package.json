@@ -4,7 +4,7 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node ./dist/src/index.js",
+		"start": "node ./dist/index.js",
 		"build": "tsc",
 		"dev": "nodemon --ignore db/ --watch \"src/**/*.ts\" --exec node --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts"
 	},
