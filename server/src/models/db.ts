@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import path, { join } from 'path';
 import { Low, JSONFile } from 'lowdb';
 
