@@ -1,5 +1,6 @@
 import path, { join } from 'path';
 import { Low, JSONFile } from 'lowdb';
+import { nanoid } from 'nanoid';
 
 import fs from 'fs/promises';
 
@@ -12,7 +13,7 @@ export interface Data {
 	suggestList: string[];
 }
 
-let db: Low<Data>;
+export let db: Low<Data>;
 
 const initDatabase = async () => {
 	const filePath = join(dirname, './db/db.json');
@@ -38,4 +39,16 @@ export const createConnection = async () => {
 
 	await db.read();
 	await db.write();
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const create = <T>(content: any): T => {
+	const timestamp = new Date().toISOString();
+
+	return {
+		...content,
+		id: nanoid(),
+		createdAt: timestamp,
+		updatedAt: timestamp,
+	};
 };
