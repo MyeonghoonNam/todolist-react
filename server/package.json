@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node --experimental-specifier-resolution=node ./dist/index.js",
 		"build": "tsc",
-		"dev": "nodemon --ignore db/ --watch \"src/**/*.ts\" --exec node --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts"
+		"dev:start": "nodemon --ignore db/ --watch \"src/**/*.ts\" --exec node --experimental-specifier-resolution=node --loader ts-node/esm src/index.ts"
 	},
 	"license": "ISC",
 	"devDependencies": {
@@ -31,6 +31,7 @@
 	"dependencies": {
 		"body-parser": "^1.20.1",
 		"cors": "^2.8.5",
-		"express": "^4.18.2"
+		"express": "^4.18.2",
+		"lowdb": "^3.0.0"
 	}
 }

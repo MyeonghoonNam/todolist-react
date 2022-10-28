@@ -14,14 +14,15 @@
 		"plugin:@typescript-eslint/recommended",
 		"plugin:prettier/recommended"
 	],
+	"ignorePatterns": ["node_modules/", "dist/"],
 	"rules": {
 		"prettier/prettier": ["error", { "endOfLine": "auto" }],
 		"import/extensions": [
 			"error",
 			"ignorePackages",
 			{
-				"ts": "never",
-				"js": "never"
+				"js": "never",
+				"ts": "never"
 			}
 		],
 		"import/no-extraneous-dependencies": [
@@ -42,7 +43,9 @@
 			"WithStatement",
 			"BinaryExpression[operator='in']"
 		],
-		"no-console": "off"
+		"no-console": "off",
+		"no-void": "off",
+		"import/no-unresolved": "off"
 	},
 	"settings": {
 		"import/resolver": {
