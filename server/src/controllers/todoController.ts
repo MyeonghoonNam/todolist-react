@@ -32,6 +32,22 @@ export const getTodos = async (req: Request, res: Response) => {
 		.send(createError(TODO_VALIDATION_ERRORS.TODO_SOMETHING_WRONG));
 };
 
+export const updateTodo = async (req: Request, res: Response) => {
+	const todoId = req.params.id;
+	const { title, complete } = req.body;
+	console.log(complete);
+	const todo = todoService.findTodo((todo) => todo.id === todoId);
+
+	if (todo) {
+		await todoService.updateTodo(todo, { title, complete });
+
+		return res.status(StatusCodes.OK).send(todo);
+	}
+	return res
+		.status(StatusCodes.BAD_REQUEST)
+		.send(createError(TODO_VALIDATION_ERRORS.TODO_SOMETHING_WRONG));
+};
+
 export const deleteTodo = async (req: Request, res: Response) => {
 	const { id: todoId } = req.params;
 

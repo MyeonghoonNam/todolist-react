@@ -1,4 +1,4 @@
-import { create, Data, db } from '../models/db';
+import { create, update, Data, db } from '../models/db';
 import type { Todo, TodoInput } from '../interfaces/todos';
 
 export const createTodo = async ({ title }: TodoInput) => {
@@ -16,6 +16,20 @@ export const findTodos = () => {
 
 export const findTodo = (predicate: (todo: Todo) => boolean) => {
 	return db.data?.todos.find(predicate);
+};
+
+export const updateTodo = async (todo: Todo, todoValue: Partial<Todo>) => {
+	Object.assign(
+		todo,
+		update<Todo>({
+			...todo,
+			...todoValue,
+		}),
+	);
+
+	await db.write();
+
+	return todo;
 };
 
 export const deleteTodo = async (todoToDelete: Todo) => {
