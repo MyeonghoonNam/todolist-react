@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as todoService from '../services/todoService';
-import { createError, createResponse } from '../utils/responseUtils';
+import { createError } from '../utils/responseUtils';
 import { TODO_VALIDATION_ERRORS } from '../utils/validator';
 import type { TodoInput } from '../interfaces/todos';
 
@@ -12,7 +12,7 @@ export const createTodo = async (req: Request, res: Response) => {
 	if (title) {
 		const todo = await todoService.createTodo({ title });
 
-		return res.status(StatusCodes.OK).send(createResponse(todo));
+		return res.status(StatusCodes.OK).send(todo);
 	}
 
 	return res
@@ -24,7 +24,7 @@ export const getTodos = async (req: Request, res: Response) => {
 	const todos = todoService.findTodos();
 
 	if (todos) {
-		return res.status(StatusCodes.OK).send(createResponse(todos));
+		return res.status(StatusCodes.OK).send(todos);
 	}
 
 	return res
@@ -45,5 +45,5 @@ export const deleteTodo = async (req: Request, res: Response) => {
 
 	await todoService.deleteTodo(todo);
 
-	return res.status(StatusCodes.OK).send(createResponse(null));
+	return res.status(StatusCodes.OK).send(null);
 };
