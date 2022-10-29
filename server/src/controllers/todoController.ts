@@ -35,7 +35,7 @@ export const getTodos = async (req: Request, res: Response) => {
 export const updateTodo = async (req: Request, res: Response) => {
 	const todoId = req.params.id;
 	const { title, complete } = req.body;
-	console.log(complete);
+
 	const todo = todoService.findTodo((todo) => todo.id === todoId);
 
 	if (todo) {
