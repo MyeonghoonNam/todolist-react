@@ -22,6 +22,7 @@ module.exports = {
 
 		config.resolve.alias = {
 			...config.resolve.alias,
+			'@api': path.resolve(__dirname, '../src/api'),
 			'@assets': path.resolve(__dirname, '../src/assets'),
 			'@components': path.resolve(__dirname, '../src/components'),
 			'@contexts': path.resolve(__dirname, '../src/contexts'),
