@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import InputForm, { Props } from '@components/InputForm';
-import TodosProvider from '@contexts/TodosProvider';
+import TodosProvider from '@contexts/TodosContext';
 
 export default {
 	title: 'Components/InputForm',

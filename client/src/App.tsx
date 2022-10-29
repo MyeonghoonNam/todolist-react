@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import TodosProvider from '@contexts/TodosProvider';
+import TodosProvider from '@contexts/TodosContext';
 import Header from '@components/Header';
 import InputForm from '@components/InputForm';
 import TodoList from '@components/TodoList';

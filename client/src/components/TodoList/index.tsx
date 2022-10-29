@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useTodos } from '@contexts/TodosProvider';
+import { useTodos } from '@contexts/TodosContext';
 import TodoItem from '@components/TodoItem';
 
 const Container = styled.ul`

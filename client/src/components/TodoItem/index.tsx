@@ -6,7 +6,7 @@ import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
-import { useTodos } from '@contexts/TodosProvider';
+import { useTodos } from '@contexts/TodosContext';
 
 const Container = styled.li`
 	display: flex;

@@ -1,5 +1,5 @@
 import TodoList from '@components/TodoList';
-import TodosProvider from '@contexts/TodosProvider';
+import TodosProvider from '@contexts/TodosContext';
 import uuid from 'react-uuid';
 
 export default {
