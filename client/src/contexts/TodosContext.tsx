@@ -1,12 +1,12 @@
-import useLocalStorage from '@hooks/useLocalStorage';
 import { createContext, useCallback, useContext } from 'react';
-import uuid from 'react-uuid';
+import { getTodoList, createTodo, patchTodo, deleteTodo } from '@api/todo';
+import useAsync from '@hooks/useAsync';
 import Todo from '@interfaces/Todo';
 
 interface TodoContext {
 	todos: Todo[];
-	addTodo: (content: string) => void;
-	toggleTodo: (id: string) => void;
+	addTodo: (title: string) => void;
+	updateTodo: (id: string, title: string, complete: boolean) => void;
 	removeTodo: (id: string) => void;
 }
 
@@ -16,46 +16,40 @@ export const useTodos = () => useContext(TodoContext);
 
 interface Props {
 	children: React.ReactNode;
-	initialState?: Todo[];
 }
 
-const TodosProvider = ({ children, initialState = [] }: Props) => {
-	const [todos, setTodos] = useLocalStorage<Todo[]>('todos', initialState);
+const TodosProvider = ({ children }: Props) => {
+	const { state: todos, error, fetchData } = useAsync<Todo[]>(getTodoList, []);
 
 	const addTodo = useCallback(
-		(content: string) => {
-			setTodos([
-				...todos,
-				{
-					id: uuid(),
-					content,
-					complete: false,
-				},
-			]);
+		async (title: string) => {
+			await createTodo({ title });
+			await fetchData();
 		},
-		[setTodos, todos],
+		[fetchData],
 	);
 
-	const toggleTodo = useCallback(
-		(id: string) => {
-			setTodos(
-				todos.map((todo: Todo) =>
-					todo.id === id ? { ...todo, complete: !todo.complete } : todo,
-				),
-			);
+	const updateTodo = useCallback(
+		async (id: string, title: string, complete: boolean) => {
+			await patchTodo(id, { title, complete });
+			await fetchData();
 		},
-		[setTodos, todos],
+		[fetchData],
 	);
 
 	const removeTodo = useCallback(
-		(id: string) => {
-			setTodos(todos.filter((todo: Todo) => todo.id !== id));
+		async (id: string) => {
+			await deleteTodo(id);
+			await fetchData();
 		},
-		[setTodos, todos],
+		[fetchData],
 	);
 
+	if (!todos) return null;
+	if (error) return null;
+
 	return (
-		<TodoContext.Provider value={{ todos, addTodo, toggleTodo, removeTodo }}>
+		<TodoContext.Provider value={{ todos, addTodo, updateTodo, removeTodo }}>
 			{children}
 		</TodoContext.Provider>
 	);

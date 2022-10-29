@@ -5,7 +5,7 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
+import { ChangeEvent, useCallback } from 'react';
 import { useTodos } from '@contexts/TodosContext';
 
 const Container = styled.li`
@@ -52,11 +52,15 @@ const RemoveButtonStyle = css`
 `;
 
 const TodoItem = ({ id, title, complete }: Todo) => {
-	const { toggleTodo, removeTodo } = useTodos();
+	const { updateTodo, removeTodo } = useTodos();
 
-	const handleChange = useCallback(() => {
-		toggleTodo(id);
-	}, [toggleTodo, id]);
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const complete = e.target.checked;
+			updateTodo(id, title, complete);
+		},
+		[updateTodo, title, id],
+	);
 
 	const handleClick = useCallback(() => {
 		removeTodo(id);
