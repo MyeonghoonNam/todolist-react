@@ -51,7 +51,7 @@ const RemoveButtonStyle = css`
 	}
 `;
 
-const TodoItem = ({ id, content, complete }: Todo) => {
+const TodoItem = ({ id, title, complete }: Todo) => {
 	const { toggleTodo, removeTodo } = useTodos();
 
 	const handleChange = useCallback(() => {
@@ -66,7 +66,7 @@ const TodoItem = ({ id, content, complete }: Todo) => {
 		<Container>
 			<Toggle on={complete} onChange={handleChange} />
 
-			<Content>{complete ? <del>{content}</del> : content}</Content>
+			<Content>{complete ? <del>{title}</del> : title}</Content>
 
 			<Button type="button" onClick={handleClick}>
 				<FaTrash css={RemoveButtonStyle} />

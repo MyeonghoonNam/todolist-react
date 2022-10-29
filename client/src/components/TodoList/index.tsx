@@ -11,8 +11,8 @@ const TodoList = () => {
 
 	return (
 		<Container>
-			{todos.map(({ id, content, complete }) => (
-				<TodoItem key={id} id={id} content={content} complete={complete} />
+			{todos.map(({ id, title, complete }) => (
+				<TodoItem key={id} id={id} title={title} complete={complete} />
 			))}
 		</Container>
 	);
