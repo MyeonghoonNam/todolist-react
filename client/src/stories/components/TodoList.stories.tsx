@@ -11,8 +11,16 @@ export const Default = () => {
 	return (
 		<TodosProvider
 			initialState={[
-				{ id: uuid(), content: 'TypeScript', complete: false },
-				{ id: uuid(), content: 'JavaScript', complete: true },
+				{
+					id: uuid(),
+					title: 'TypeScript',
+					complete: false,
+				},
+				{
+					id: uuid(),
+					title: 'JavaScript',
+					complete: true,
+				},
 			]}
 		>
 			<TodoList />

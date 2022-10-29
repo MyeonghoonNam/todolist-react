@@ -6,5 +6,5 @@ export default {
 };
 
 export const Default = () => {
-	return <TodoItem id="1" content="TypeScript" complete={false} />;
+	return <TodoItem id="1" title="TypeScript" complete={false} />;
 };
