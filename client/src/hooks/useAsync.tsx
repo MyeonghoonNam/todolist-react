@@ -18,7 +18,7 @@ const useAsync = <T extends {}>(
 	const fetchData = useCallback(async () => {
 		try {
 			setLoading(true);
-			const { data } = await callback();
+			const data = await callback();
 			setState(() => data);
 		} catch (e) {
 			setError(() => true);
