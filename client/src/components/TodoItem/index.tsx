@@ -5,8 +5,8 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
-import { useTodos } from '@contexts/TodosProvider';
+import { ChangeEvent, useCallback } from 'react';
+import { useTodos } from '@contexts/TodosContext';
 
 const Container = styled.li`
 	display: flex;
@@ -51,12 +51,16 @@ const RemoveButtonStyle = css`
 	}
 `;
 
-const TodoItem = ({ id, content, complete }: Todo) => {
-	const { toggleTodo, removeTodo } = useTodos();
+const TodoItem = ({ id, title, complete }: Todo) => {
+	const { updateTodo, removeTodo } = useTodos();
 
-	const handleChange = useCallback(() => {
-		toggleTodo(id);
-	}, [toggleTodo, id]);
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const complete = e.target.checked;
+			updateTodo(id, title, complete);
+		},
+		[updateTodo, title, id],
+	);
 
 	const handleClick = useCallback(() => {
 		removeTodo(id);
@@ -66,7 +70,7 @@ const TodoItem = ({ id, content, complete }: Todo) => {
 		<Container>
 			<Toggle on={complete} onChange={handleChange} />
 
-			<Content>{complete ? <del>{content}</del> : content}</Content>
+			<Content>{complete ? <del>{title}</del> : title}</Content>
 
 			<Button type="button" onClick={handleClick}>
 				<FaTrash css={RemoveButtonStyle} />

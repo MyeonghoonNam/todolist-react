@@ -4,7 +4,7 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { useTodos } from '@contexts/TodosProvider';
+import { useTodos } from '@contexts/TodosContext';
 
 export interface Props {
 	onSubmit?: () => void;

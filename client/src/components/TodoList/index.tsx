@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useTodos } from '@contexts/TodosProvider';
+import { useTodos } from '@contexts/TodosContext';
 import TodoItem from '@components/TodoItem';
 
 const Container = styled.ul`
@@ -11,8 +11,8 @@ const TodoList = () => {
 
 	return (
 		<Container>
-			{todos.map(({ id, content, complete }) => (
-				<TodoItem key={id} id={id} content={content} complete={complete} />
+			{todos.map(({ id, title, complete }) => (
+				<TodoItem key={id} id={id} title={title} complete={complete} />
 			))}
 		</Container>
 	);
