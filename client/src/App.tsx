@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import TodosProvider from '@contexts/TodosContext';
+
 import Header from '@components/Header';
 import InputForm from '@components/InputForm';
 import TodoList from '@components/TodoList';
@@ -15,13 +15,11 @@ const Container = styled.div`
 
 const App = () => {
 	return (
-		<TodosProvider>
-			<Container>
-				<Header />
-				<InputForm />
-				<TodoList />
-			</Container>
-		</TodosProvider>
+		<Container>
+			<Header />
+			<InputForm />
+			<TodoList />
+		</Container>
 	);
 };
 

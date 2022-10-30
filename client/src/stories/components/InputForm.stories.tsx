@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import InputForm, { Props } from '@components/InputForm';
-import TodosProvider from '@contexts/TodosContext';
 
 export default {
 	title: 'Components/InputForm',
@@ -19,10 +18,8 @@ const Conatiner = styled.div`
 
 export const Default = (args: Props) => {
 	return (
-		<TodosProvider>
-			<Conatiner>
-				<InputForm {...args} />
-			</Conatiner>
-		</TodosProvider>
+		<Conatiner>
+			<InputForm {...args} />
+		</Conatiner>
 	);
 };
