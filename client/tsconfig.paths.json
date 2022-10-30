@@ -8,6 +8,7 @@
 			"@contexts/*": ["./contexts/*"],
 			"@hooks/*": ["./hooks/*"],
 			"@interfaces/*": ["./interfaces/*"],
+			"@store/*": ["./store/*"],
 			"@styles/*": ["./styles/*"]
 		}
 	}
