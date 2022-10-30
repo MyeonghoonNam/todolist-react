@@ -25,7 +25,6 @@ module.exports = {
 			'@api': path.resolve(__dirname, '../src/api'),
 			'@assets': path.resolve(__dirname, '../src/assets'),
 			'@components': path.resolve(__dirname, '../src/components'),
-			'@contexts': path.resolve(__dirname, '../src/contexts'),
 			'@hooks': path.resolve(__dirname, '../src/hooks'),
 			'@interfaces': path.resolve(__dirname, '../src/interfaces'),
 			'@styles': path.resolve(__dirname, '../src/styles'),

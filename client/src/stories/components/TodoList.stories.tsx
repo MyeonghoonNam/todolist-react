@@ -1,5 +1,4 @@
 import TodoList from '@components/TodoList';
-import TodosProvider from '@contexts/TodosContext';
 
 export default {
 	title: 'Components/TodoList',
@@ -7,9 +6,5 @@ export default {
 };
 
 export const Default = () => {
-	return (
-		<TodosProvider>
-			<TodoList />
-		</TodosProvider>
-	);
+	return <TodoList />;
 };
