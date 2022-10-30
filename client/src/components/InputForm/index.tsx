@@ -4,7 +4,8 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { useTodos } from '@contexts/TodosContext';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '@store/todos';
 
 export interface Props {
 	onSubmit?: () => void;
@@ -63,16 +64,16 @@ const PlusButtonStyle = css`
 
 const InputForm = ({ onSubmit }: Props) => {
 	const [keyword, setKeyword] = useState('');
-	const { addTodo } = useTodos();
+	const dispatch = useDispatch();
 
 	const handleSubmit = useCallback(
 		(e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			addTodo(keyword);
+			dispatch(addTodo(keyword));
 			setKeyword(() => '');
 			onSubmit && onSubmit();
 		},
-		[keyword, addTodo, onSubmit],
+		[dispatch, keyword, onSubmit],
 	);
 
 	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {

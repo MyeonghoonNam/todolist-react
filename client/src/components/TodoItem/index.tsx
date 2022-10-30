@@ -6,7 +6,8 @@ import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { ChangeEvent, useCallback } from 'react';
-import { useTodos } from '@contexts/TodosContext';
+import { useDispatch } from 'react-redux';
+import { updateTodo, removeTodo } from '@store/todos';
 
 const Container = styled.li`
 	display: flex;
@@ -52,19 +53,19 @@ const RemoveButtonStyle = css`
 `;
 
 const TodoItem = ({ id, title, complete }: Todo) => {
-	const { updateTodo, removeTodo } = useTodos();
+	const dispatch = useDispatch();
 
 	const handleChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			const complete = e.target.checked;
-			updateTodo(id, title, complete);
+			dispatch(updateTodo(id, title, complete));
 		},
-		[updateTodo, title, id],
+		[dispatch, title, id],
 	);
 
 	const handleClick = useCallback(() => {
-		removeTodo(id);
-	}, [removeTodo, id]);
+		dispatch(removeTodo(id));
+	}, [dispatch, id]);
 
 	return (
 		<Container>
