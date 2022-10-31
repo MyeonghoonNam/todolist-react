@@ -10,16 +10,22 @@ const persistConfig = {
 	storage,
 };
 
-const rootReducer = combineReducers({ todos });
+const rootReducer = combineReducers({ todos: todos.reducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const middleWare = [logger];
+
 export const store = configureStore({
 	reducer: persistedReducer,
-	middleware: [logger],
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+		}).concat(middleWare),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

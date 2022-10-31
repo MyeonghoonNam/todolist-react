@@ -1,50 +1,87 @@
-import { createAction, createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import * as api from '@api/todo';
 
 import Todo from '@interfaces/Todo';
 
-export const addTodo = createAction('ADD_TODO', (title: string) => {
-	return {
-		payload: {
-			title,
-			complete: false,
-		},
-	};
-});
+const RESOURCE = 'todos';
 
-export const updateTodo = createAction(
-	'UPDATE_TODO',
-	(id: string, title: string, complete: boolean) => {
-		return {
-			payload: {
-				id,
-				title,
-				complete,
-			},
-		};
+export const getTodoList = createAsyncThunk(
+	`${RESOURCE}/getTodoList`,
+	async () => {
+		const data = await api.getTodoList();
+		return data;
 	},
 );
 
-export const removeTodo = createAction('REMOVE_TODO', (id: string) => {
-	return {
-		payload: {
-			id,
-		},
-	};
-});
+export const addTodo = createAsyncThunk(
+	`${RESOURCE}/addTodo`,
+	async ({ title }: { title: string }) => {
+		await api.createTodo({ title });
+	},
+);
 
-export const todos = createReducer([], {
-	[addTodo.type]: (state: Todo[], action: PayloadAction<Todo>) => {
-		state.push(action.payload);
+export const updateTodo = createAsyncThunk(
+	`${RESOURCE}/updateTodo`,
+	async ({
+		id,
+		title,
+		complete,
+	}: {
+		id: string;
+		title: string;
+		complete: boolean;
+	}) => {
+		await api.patchTodo(id, { title, complete });
 	},
-	[updateTodo.type]: (state: Todo[], action: PayloadAction<Todo>) => {
-		state.map((todo) =>
-			todo.id === action.payload.id ? action.payload : todo,
-		);
+);
+
+export const removeTodo = createAsyncThunk(
+	`${RESOURCE}/removeTodo`,
+	async ({ id }: { id: string }) => {
+		await api.deleteTodo(id);
 	},
-	[removeTodo.type]: (
-		state: Todo[],
-		action: PayloadAction<Pick<Todo, 'id'>>,
-	) => {
-		state.filter((todo) => todo.id !== action.payload.id);
+);
+
+export interface TodosState {
+	data: Todo[];
+	loading: boolean;
+}
+
+const initialState: TodosState = {
+	data: [],
+	loading: false,
+};
+
+export const todos = createSlice({
+	name: 'todos',
+	initialState,
+	reducers: {},
+	extraReducers: {
+		[getTodoList.pending.type]: (state) => {
+			state.loading = true;
+		},
+		[getTodoList.fulfilled.type]: (state, action) => {
+			state.data = action.payload;
+			state.loading = false;
+		},
+		[addTodo.pending.type]: (state) => {
+			state.loading = true;
+		},
+		[addTodo.fulfilled.type]: (state) => {
+			state.loading = false;
+		},
+		[updateTodo.pending.type]: (state) => {
+			state.loading = true;
+		},
+		[updateTodo.fulfilled.type]: (state) => {
+			state.loading = false;
+		},
+		[removeTodo.pending.type]: (state) => {
+			state.loading = true;
+		},
+		[removeTodo.fulfilled.type]: (state) => {
+			state.loading = false;
+		},
 	},
 });

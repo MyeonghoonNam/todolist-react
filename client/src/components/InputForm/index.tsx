@@ -5,11 +5,41 @@ import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '@store/todos';
+import { addTodo, getTodoList } from '@store/todos';
+import { AppDispatch } from '@store/index';
 
-export interface Props {
-	onSubmit?: () => void;
-}
+const InputForm = () => {
+	const [keyword, setKeyword] = useState('');
+	const dispatch = useDispatch<AppDispatch>();
+
+	const handleSubmit = useCallback(
+		(e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			dispatch(addTodo({ title: keyword }));
+			dispatch(getTodoList());
+			setKeyword(() => '');
+		},
+		[dispatch, keyword],
+	);
+
+	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+		setKeyword(() => e.target.value);
+	}, []);
+
+	return (
+		<Container onSubmit={handleSubmit}>
+			<Icon>
+				<FaSearch />
+			</Icon>
+
+			<Input type="text" value={keyword} onChange={handleChange} autoFocus />
+
+			<Button type="submit" css={PlusButtonStyle}>
+				<FaPlusCircle />
+			</Button>
+		</Container>
+	);
+};
 
 const Container = styled.form`
 	position: relative;
@@ -61,38 +91,5 @@ const PlusButtonStyle = css`
 		opacity: 0.5;
 	}
 `;
-
-const InputForm = ({ onSubmit }: Props) => {
-	const [keyword, setKeyword] = useState('');
-	const dispatch = useDispatch();
-
-	const handleSubmit = useCallback(
-		(e: FormEvent<HTMLFormElement>) => {
-			e.preventDefault();
-			dispatch(addTodo(keyword));
-			setKeyword(() => '');
-			onSubmit && onSubmit();
-		},
-		[dispatch, keyword, onSubmit],
-	);
-
-	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-		setKeyword(() => e.target.value);
-	}, []);
-
-	return (
-		<Container onSubmit={handleSubmit}>
-			<Icon>
-				<FaSearch />
-			</Icon>
-
-			<Input type="text" value={keyword} onChange={handleChange} autoFocus />
-
-			<Button type="submit" css={PlusButtonStyle}>
-				<FaPlusCircle />
-			</Button>
-		</Container>
-	);
-};
 
 export default InputForm;

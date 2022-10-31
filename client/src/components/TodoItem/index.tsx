@@ -7,7 +7,38 @@ import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { ChangeEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateTodo, removeTodo } from '@store/todos';
+import { getTodoList, removeTodo, updateTodo } from '@store/todos';
+import { AppDispatch } from '@store/index';
+
+const TodoItem = ({ id, title, complete }: Todo) => {
+	const dispatch = useDispatch<AppDispatch>();
+
+	const handleChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const complete = e.target.checked;
+			dispatch(updateTodo({ id, title, complete }));
+			dispatch(getTodoList());
+		},
+		[dispatch, title, id],
+	);
+
+	const handleClick = useCallback(() => {
+		dispatch(removeTodo({ id }));
+		dispatch(getTodoList());
+	}, [dispatch, id]);
+
+	return (
+		<Container>
+			<Toggle on={complete} onChange={handleChange} />
+
+			<Content>{complete ? <del>{title}</del> : title}</Content>
+
+			<Button type="button" onClick={handleClick}>
+				<FaTrash css={RemoveButtonStyle} />
+			</Button>
+		</Container>
+	);
+};
 
 const Container = styled.li`
 	display: flex;
@@ -51,33 +82,5 @@ const RemoveButtonStyle = css`
 		opacity: 0.5;
 	}
 `;
-
-const TodoItem = ({ id, title, complete }: Todo) => {
-	const dispatch = useDispatch();
-
-	const handleChange = useCallback(
-		(e: ChangeEvent<HTMLInputElement>) => {
-			const complete = e.target.checked;
-			dispatch(updateTodo(id, title, complete));
-		},
-		[dispatch, title, id],
-	);
-
-	const handleClick = useCallback(() => {
-		dispatch(removeTodo(id));
-	}, [dispatch, id]);
-
-	return (
-		<Container>
-			<Toggle on={complete} onChange={handleChange} />
-
-			<Content>{complete ? <del>{title}</del> : title}</Content>
-
-			<Button type="button" onClick={handleClick}>
-				<FaTrash css={RemoveButtonStyle} />
-			</Button>
-		</Container>
-	);
-};
 
 export default TodoItem;

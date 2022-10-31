@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import InputForm, { Props } from '@components/InputForm';
+import InputForm from '@components/InputForm';
 
 export default {
 	title: 'Components/InputForm',
@@ -16,10 +16,10 @@ const Conatiner = styled.div`
 	margin: 0 auto;
 `;
 
-export const Default = (args: Props) => {
+export const Default = () => {
 	return (
 		<Conatiner>
-			<InputForm {...args} />
+			<InputForm />
 		</Conatiner>
 	);
 };
