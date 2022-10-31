@@ -10,7 +10,7 @@ const persistConfig = {
 	storage,
 };
 
-const rootReducer = combineReducers({ todos });
+const rootReducer = combineReducers({ todos: todos.reducer });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

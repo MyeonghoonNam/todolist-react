@@ -5,7 +5,7 @@ import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '@store/todos';
+import { todos } from '@store/todos';
 
 export interface Props {
 	onSubmit?: () => void;
@@ -69,7 +69,7 @@ const InputForm = ({ onSubmit }: Props) => {
 	const handleSubmit = useCallback(
 		(e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			dispatch(addTodo(keyword));
+			dispatch(todos.actions.add(keyword));
 			setKeyword(() => '');
 			onSubmit && onSubmit();
 		},
