@@ -72,7 +72,9 @@
 		],
 		"no-unused-expressions": ["error", { "allowShortCircuit": true }],
 		"import/prefer-default-export": "off",
-		"react/jsx-no-constructed-context-values": "off"
+		"react/jsx-no-constructed-context-values": "off",
+		"no-param-reassign": "off",
+		"no-use-before-define": "off"
 	},
 	"settings": {
 		"import/parsers": {
