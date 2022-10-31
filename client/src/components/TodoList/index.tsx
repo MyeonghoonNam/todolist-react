@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
 import TodoItem from '@components/TodoItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '@store/index';
-
-const Container = styled.ul`
-	width: 100%;
-`;
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@store/index';
+import { useEffect } from 'react';
+import { getTodoList } from '@store/todos';
 
 const TodoList = () => {
-	const todos = useSelector((store: RootState) => store.todos);
+	const dispatch = useDispatch<AppDispatch>();
+	const { data: todos } = useSelector((store: RootState) => store.todos);
+
+	useEffect(() => {
+		dispatch(getTodoList());
+	}, [dispatch]);
 
 	return (
 		<Container>
@@ -18,5 +21,9 @@ const TodoList = () => {
 		</Container>
 	);
 };
+
+const Container = styled.ul`
+	width: 100%;
+`;
 
 export default TodoList;
