@@ -5,26 +5,38 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getTodoList, removeTodo, updateTodo } from '@store/todos';
+import { removeTodo, updateTodo } from '@store/todos';
 import { AppDispatch } from '@store/index';
+import Spinner from '@components/Spinner';
 
 const TodoItem = ({ id, title, complete }: Todo) => {
+	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
-			const complete = e.target.checked;
-			dispatch(updateTodo({ id, title, complete }));
-			dispatch(getTodoList());
+			try {
+				const complete = e.target.checked;
+				dispatch(updateTodo({ id, title, complete }));
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		[dispatch, title, id],
 	);
 
-	const handleClick = useCallback(() => {
-		dispatch(removeTodo({ id }));
-		dispatch(getTodoList());
+	const handleClick = useCallback(async () => {
+		try {
+			setLoading(() => true);
+
+			await dispatch(removeTodo({ id }));
+		} catch (e) {
+			console.error(e);
+		} finally {
+			setLoading(() => false);
+		}
 	}, [dispatch, id]);
 
 	return (
@@ -34,7 +46,7 @@ const TodoItem = ({ id, title, complete }: Todo) => {
 			<Content>{complete ? <del>{title}</del> : title}</Content>
 
 			<Button type="button" onClick={handleClick}>
-				<FaTrash css={RemoveButtonStyle} />
+				{loading ? <Spinner /> : <FaTrash css={RemoveButtonStyle} />}
 			</Button>
 		</Container>
 	);
