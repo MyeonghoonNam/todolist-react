@@ -7,7 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { ChangeEvent, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { getTodoList, removeTodo, updateTodo } from '@store/todos';
+import { removeTodo, updateTodo } from '@store/todos';
 import { AppDispatch } from '@store/index';
 
 const TodoItem = ({ id, title, complete }: Todo) => {
@@ -17,14 +17,12 @@ const TodoItem = ({ id, title, complete }: Todo) => {
 		(e: ChangeEvent<HTMLInputElement>) => {
 			const complete = e.target.checked;
 			dispatch(updateTodo({ id, title, complete }));
-			dispatch(getTodoList());
 		},
 		[dispatch, title, id],
 	);
 
 	const handleClick = useCallback(() => {
 		dispatch(removeTodo({ id }));
-		dispatch(getTodoList());
 	}, [dispatch, id]);
 
 	return (

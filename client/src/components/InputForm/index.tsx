@@ -5,7 +5,7 @@ import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo, getTodoList } from '@store/todos';
+import { addTodo } from '@store/todos';
 import { AppDispatch } from '@store/index';
 
 const InputForm = () => {
@@ -16,7 +16,6 @@ const InputForm = () => {
 		(e: FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 			dispatch(addTodo({ title: keyword }));
-			dispatch(getTodoList());
 			setKeyword(() => '');
 		},
 		[dispatch, keyword],

@@ -17,7 +17,8 @@ export const getTodoList = createAsyncThunk(
 export const addTodo = createAsyncThunk(
 	`${RESOURCE}/addTodo`,
 	async ({ title }: { title: string }) => {
-		await api.createTodo({ title });
+		const data = await api.createTodo({ title });
+		return data;
 	},
 );
 
@@ -32,7 +33,8 @@ export const updateTodo = createAsyncThunk(
 		title: string;
 		complete: boolean;
 	}) => {
-		await api.patchTodo(id, { title, complete });
+		const data = await api.patchTodo(id, { title, complete });
+		return data;
 	},
 );
 
@@ -40,6 +42,7 @@ export const removeTodo = createAsyncThunk(
 	`${RESOURCE}/removeTodo`,
 	async ({ id }: { id: string }) => {
 		await api.deleteTodo(id);
+		return id;
 	},
 );
 
@@ -68,19 +71,25 @@ export const todos = createSlice({
 		[addTodo.pending.type]: (state) => {
 			state.loading = true;
 		},
-		[addTodo.fulfilled.type]: (state) => {
+		[addTodo.fulfilled.type]: (state, action) => {
 			state.loading = false;
+			state.data.push(action.payload);
 		},
 		[updateTodo.pending.type]: (state) => {
 			state.loading = true;
 		},
-		[updateTodo.fulfilled.type]: (state) => {
+		[updateTodo.fulfilled.type]: (state, action) => {
+			state.data = state.data.map((todo) =>
+				todo.id === action.payload.id ? action.payload : todo,
+			);
+
 			state.loading = false;
 		},
 		[removeTodo.pending.type]: (state) => {
 			state.loading = true;
 		},
-		[removeTodo.fulfilled.type]: (state) => {
+		[removeTodo.fulfilled.type]: (state, action) => {
+			state.data = state.data.filter(({ id }) => id !== action.payload);
 			state.loading = false;
 		},
 	},
