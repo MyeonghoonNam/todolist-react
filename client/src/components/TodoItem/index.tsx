@@ -15,14 +15,22 @@ const TodoItem = ({ id, title, complete }: Todo) => {
 
 	const handleChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
-			const complete = e.target.checked;
-			dispatch(updateTodo({ id, title, complete }));
+			try {
+				const complete = e.target.checked;
+				dispatch(updateTodo({ id, title, complete }));
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		[dispatch, title, id],
 	);
 
 	const handleClick = useCallback(() => {
-		dispatch(removeTodo({ id }));
+		try {
+			dispatch(removeTodo({ id }));
+		} catch (e) {
+			console.error(e);
+		}
 	}, [dispatch, id]);
 
 	return (

@@ -10,13 +10,18 @@ import { AppDispatch } from '@store/index';
 
 const InputForm = () => {
 	const [keyword, setKeyword] = useState('');
+
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleSubmit = useCallback(
 		(e: FormEvent<HTMLFormElement>) => {
-			e.preventDefault();
-			dispatch(addTodo({ title: keyword }));
-			setKeyword(() => '');
+			try {
+				e.preventDefault();
+				dispatch(addTodo({ title: keyword }));
+				setKeyword(() => '');
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		[dispatch, keyword],
 	);
