@@ -7,20 +7,26 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '@store/todos';
 import { AppDispatch } from '@store/index';
+import Spinner from '@components/Spinner';
 
 const InputForm = () => {
 	const [keyword, setKeyword] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleSubmit = useCallback(
-		(e: FormEvent<HTMLFormElement>) => {
+		async (e: FormEvent<HTMLFormElement>) => {
 			try {
+				setLoading(() => true);
+
 				e.preventDefault();
-				dispatch(addTodo({ title: keyword }));
+				await dispatch(addTodo({ title: keyword }));
 				setKeyword(() => '');
 			} catch (e) {
 				console.error(e);
+			} finally {
+				setLoading(() => false);
 			}
 		},
 		[dispatch, keyword],
@@ -38,9 +44,13 @@ const InputForm = () => {
 
 			<Input type="text" value={keyword} onChange={handleChange} autoFocus />
 
-			<Button type="submit" css={PlusButtonStyle}>
-				<FaPlusCircle />
-			</Button>
+			{loading ? (
+				<Spinner />
+			) : (
+				<Button type="submit" css={PlusButtonStyle}>
+					<FaPlusCircle />
+				</Button>
+			)}
 		</Container>
 	);
 };

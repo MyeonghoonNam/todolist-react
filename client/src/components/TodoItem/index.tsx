@@ -5,12 +5,14 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeTodo, updateTodo } from '@store/todos';
 import { AppDispatch } from '@store/index';
+import Spinner from '@components/Spinner';
 
 const TodoItem = ({ id, title, complete }: Todo) => {
+	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleChange = useCallback(
@@ -25,11 +27,15 @@ const TodoItem = ({ id, title, complete }: Todo) => {
 		[dispatch, title, id],
 	);
 
-	const handleClick = useCallback(() => {
+	const handleClick = useCallback(async () => {
 		try {
-			dispatch(removeTodo({ id }));
+			setLoading(() => true);
+
+			await dispatch(removeTodo({ id }));
 		} catch (e) {
 			console.error(e);
+		} finally {
+			setLoading(() => false);
 		}
 	}, [dispatch, id]);
 
@@ -40,7 +46,7 @@ const TodoItem = ({ id, title, complete }: Todo) => {
 			<Content>{complete ? <del>{title}</del> : title}</Content>
 
 			<Button type="button" onClick={handleClick}>
-				<FaTrash css={RemoveButtonStyle} />
+				{loading ? <Spinner /> : <FaTrash css={RemoveButtonStyle} />}
 			</Button>
 		</Container>
 	);
