@@ -68,15 +68,8 @@ export const todos = createSlice({
 			state.data = action.payload;
 			state.loading = false;
 		},
-		[addTodo.pending.type]: (state) => {
-			state.loading = true;
-		},
 		[addTodo.fulfilled.type]: (state, action) => {
-			state.loading = false;
 			state.data.push(action.payload);
-		},
-		[updateTodo.pending.type]: (state) => {
-			state.loading = true;
 		},
 		[updateTodo.fulfilled.type]: (state, action) => {
 			state.data = state.data.map((todo) =>
@@ -84,9 +77,6 @@ export const todos = createSlice({
 			);
 
 			state.loading = false;
-		},
-		[removeTodo.pending.type]: (state) => {
-			state.loading = true;
 		},
 		[removeTodo.fulfilled.type]: (state, action) => {
 			state.data = state.data.filter(({ id }) => id !== action.payload);
