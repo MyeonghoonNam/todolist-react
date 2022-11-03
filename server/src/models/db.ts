@@ -6,10 +6,12 @@ import { nanoid } from 'nanoid';
 import fs from 'fs/promises';
 
 import type { Todo } from '../interfaces/todos';
+import type { User } from '../interfaces/users';
 
 const dirname = path.resolve();
 
 export interface Data {
+	users: User[];
 	todos: Todo[];
 	suggestList: string[];
 }
