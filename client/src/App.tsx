@@ -1,26 +1,17 @@
-import styled from '@emotion/styled';
+import { Route, Routes } from 'react-router-dom';
 
-import Header from '@components/Header';
-import InputForm from '@components/InputForm';
-import TodoList from '@components/TodoList';
+import LoginPage from '@pages/LoginPage';
+import SignUpPage from '@pages/SignUpPage';
+import MainPage from '@pages/MainPage';
 
 const App = () => {
 	return (
-		<Container>
-			<Header />
-			<InputForm />
-			<TodoList />
-		</Container>
+		<Routes>
+			<Route path="/" element={<MainPage />} />
+			<Route path="/login" element={<LoginPage />} />
+			<Route path="/signup" element={<SignUpPage />} />
+		</Routes>
 	);
 };
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	max-width: 600px;
-	margin: 0 auto;
-`;
 
 export default App;
