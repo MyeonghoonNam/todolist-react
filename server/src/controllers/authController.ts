@@ -35,7 +35,10 @@ export const login = async (req: Request, res: Response) => {
 export const signUp = async (req: Request, res: Response) => {
 	const { email, password }: UserInput = req.body;
 
-	const { isValid, message } = loginValidator({ email, password });
+	const { isValid, message } = loginValidator({
+		email,
+		password,
+	});
 
 	if (!isValid) {
 		return res.status(StatusCodes.BAD_REQUEST).send(createError(message));
@@ -45,13 +48,13 @@ export const signUp = async (req: Request, res: Response) => {
 	if (existUser) {
 		return res
 			.status(StatusCodes.CONFLICT)
-			.send(createError(USER_VALIDATION_ERRORS.EXIST_USER));
+			.send(createError(USER_VALIDATION_ERRORS.EXIST_EMAIL));
 	}
 
 	await userService.createUser({ email, password });
 
 	return res.status(StatusCodes.OK).send({
+		status: StatusCodes.OK,
 		message: '계정이 성공적으로 생성되었습니다',
-		token: createToken(email),
 	});
 };

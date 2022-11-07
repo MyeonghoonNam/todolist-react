@@ -27,9 +27,10 @@ const useForm = ({ initialState, validate, onSubmit }: Props) => {
 
 			if (Object.keys(newErrors).length === 0) {
 				await onSubmit();
+			} else {
+				setErrors(newErrors);
 			}
 
-			setErrors(newErrors);
 			setLoading(() => false);
 		},
 		[values, validate, onSubmit],
@@ -38,6 +39,7 @@ const useForm = ({ initialState, validate, onSubmit }: Props) => {
 	return {
 		values,
 		errors,
+		setErrors,
 		loading,
 		handleChange,
 		handleSubmit,
