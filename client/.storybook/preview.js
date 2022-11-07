@@ -1,4 +1,9 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { store, persistor } from '../src/store';
+
 import GlobalStyle from '../src/styles/global';
 
 export const parameters = {
@@ -13,9 +18,11 @@ export const parameters = {
 
 export const decorators = [
 	(Story) => (
-		<>
-			<GlobalStyle />
-			<Story />
-		</>
+		<Provider store={store}>
+			<PersistGate persistor={persistor}>
+				<GlobalStyle />
+				<Story />
+			</PersistGate>
+		</Provider>
 	),
 ];
