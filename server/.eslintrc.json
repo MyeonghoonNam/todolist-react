@@ -48,7 +48,8 @@
 		"import/no-unresolved": "off",
 		"import/no-mutable-exports": "off",
 		"import/prefer-default-export": "off",
-		"no-use-before-define": "off"
+		"no-use-before-define": "off",
+		"no-param-reassign": "off"
 	},
 	"settings": {
 		"import/resolver": {
