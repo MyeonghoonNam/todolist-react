@@ -7,7 +7,8 @@ const baseInstance = axios.create({
 });
 
 baseInstance.interceptors.response.use((res) => {
-	return res.data;
+	console.log(res);
+	return res;
 });
 
 const api = {
