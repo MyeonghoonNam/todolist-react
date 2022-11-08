@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GlobalStyle from '@styles/global';
 
-import { BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 
-import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { BrowserRouter } from 'react-router-dom';
 
 import { store, persistor } from './store';
 
@@ -17,13 +19,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			<PersistGate persistor={persistor}>
-				<BrowserRouter>
-					<GlobalStyle />
-					<App />
-				</BrowserRouter>
-			</PersistGate>
-		</Provider>
+		<CookiesProvider>
+			<Provider store={store}>
+				<PersistGate persistor={persistor}>
+					<BrowserRouter>
+						<GlobalStyle />
+						<App />
+					</BrowserRouter>
+				</PersistGate>
+			</Provider>
+		</CookiesProvider>
 	</React.StrictMode>,
 );
