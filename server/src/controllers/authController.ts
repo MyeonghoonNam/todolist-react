@@ -22,11 +22,20 @@ export const login = async (req: Request, res: Response) => {
 	);
 
 	if (user) {
+		const refreshToken = createToken({}, 'refresh');
+		const accessToken = createToken({ email, password }, 'access');
+
+		await userService.authUser(user, refreshToken);
+
 		return res.status(StatusCodes.OK).send({
 			message: '성공적으로 로그인 했습니다',
-			token: createToken(email),
+			token: {
+				refreshToken,
+				accessToken,
+			},
 		});
 	}
+
 	return res
 		.status(StatusCodes.BAD_REQUEST)
 		.send(createError(USER_VALIDATION_ERRORS.USER_NOT_FOUND));
