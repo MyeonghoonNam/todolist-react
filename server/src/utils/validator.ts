@@ -16,7 +16,7 @@ export const loginValidator = (loginForm: UserInput) => {
 		};
 	}
 
-	if (!validator.isLength(loginForm.password, { min: 8 })) {
+	if (!validator.isLength(loginForm.password, { min: 8, max: 12 })) {
 		return {
 			isValid: false,
 			message: USER_VALIDATION_ERRORS.INVALID_PASSWORD,

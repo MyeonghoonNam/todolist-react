@@ -9,7 +9,7 @@ const RESOURCE = 'todos';
 export const getTodoList = createAsyncThunk(
 	`${RESOURCE}/getTodoList`,
 	async () => {
-		const data = await api.getTodoList();
+		const { data } = await api.getTodoList();
 		return data;
 	},
 );
@@ -17,7 +17,7 @@ export const getTodoList = createAsyncThunk(
 export const addTodo = createAsyncThunk(
 	`${RESOURCE}/addTodo`,
 	async ({ title }: { title: string }) => {
-		const data = await api.createTodo({ title });
+		const { data } = await api.createTodo({ title });
 		return data;
 	},
 );
@@ -33,7 +33,7 @@ export const updateTodo = createAsyncThunk(
 		title: string;
 		complete: boolean;
 	}) => {
-		const data = await api.patchTodo(id, { title, complete });
+		const { data } = await api.patchTodo(id, { title, complete });
 		return data;
 	},
 );

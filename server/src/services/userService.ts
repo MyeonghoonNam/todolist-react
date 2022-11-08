@@ -14,3 +14,8 @@ export const createUser = async ({ email, password }: UserInput) => {
 export const findUser = (predicate: (user: User) => boolean) => {
 	return db.data?.users.find(predicate);
 };
+
+export const authUser = async (user: User, token: string) => {
+	user.token = token;
+	await db.write();
+};

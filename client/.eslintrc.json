@@ -75,7 +75,8 @@
 		"react/jsx-no-constructed-context-values": "off",
 		"no-param-reassign": "off",
 		"no-use-before-define": "off",
-		"no-console": "off"
+		"no-console": "off",
+		"no-useless-catch": "off"
 	},
 	"settings": {
 		"import/parsers": {
