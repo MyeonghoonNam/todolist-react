@@ -19,3 +19,12 @@ export const login = async (data: object) => {
 		throw e;
 	}
 };
+
+export const auth = async () => {
+	try {
+		const response = await api.get(`${RESOURCE}/auth`);
+		return response;
+	} catch (e) {
+		throw e;
+	}
+};

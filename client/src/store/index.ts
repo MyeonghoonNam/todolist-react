@@ -4,13 +4,17 @@ import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
 import { todos } from './todos';
+import { users } from './user';
 
 const persistConfig = {
 	key: 'root',
 	storage,
 };
 
-const rootReducer = combineReducers({ todos: todos.reducer });
+const rootReducer = combineReducers({
+	todos: todos.reducer,
+	users: users.reducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

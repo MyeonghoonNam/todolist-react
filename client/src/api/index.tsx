@@ -4,10 +4,20 @@ const baseURL = process.env.REACT_APP_API_URL;
 
 const baseInstance = axios.create({
 	baseURL,
+	withCredentials: true,
+});
+
+baseInstance.interceptors.request.use((req) => {
+	const token = localStorage.getItem('token');
+
+	if (req.headers && token) {
+		req.headers.Authorization = `Bearer ${token}`;
+	}
+
+	return req;
 });
 
 baseInstance.interceptors.response.use((res) => {
-	console.log(res);
 	return res;
 });
 

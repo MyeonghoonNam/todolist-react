@@ -1,12 +1,18 @@
 import type { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { loginValidator, USER_VALIDATION_ERRORS } from '../utils/validator';
+import {
+	loginValidator,
+	USER_AUTHORIZATION_ERROS,
+	USER_VALIDATION_ERRORS,
+} from '../utils/validator';
 import { createError } from '../utils/responseUtils';
-import * as userService from '../services/userService';
-import { createToken } from '../utils/authorizeUtils';
+import { createToken, verifyToken } from '../utils/authorizeUtils';
+import { parseCookies, parseToken } from '../utils/parseString';
 
 import { UserInput } from '../interfaces/users';
+
+import * as userService from '../services/userService';
 
 export const login = async (req: Request, res: Response) => {
 	const { email, password }: UserInput = req.body;
@@ -23,7 +29,7 @@ export const login = async (req: Request, res: Response) => {
 
 	if (user) {
 		const refreshToken = createToken({}, 'refresh');
-		const accessToken = createToken({ email, password }, 'access');
+		const accessToken = createToken({ email }, 'access');
 
 		await userService.authUser(user, refreshToken);
 
@@ -66,4 +72,20 @@ export const signUp = async (req: Request, res: Response) => {
 		status: StatusCodes.OK,
 		message: '계정이 성공적으로 생성되었습니다',
 	});
+};
+
+export const auth = async (req: Request, res: Response) => {
+	if (!req.headers.authorization) {
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.send(createError(USER_AUTHORIZATION_ERROS.TOKEN_NOT_FOUND));
+	}
+
+	const cookies = parseCookies(req.headers.cookie);
+	const user = userService.findUser((user) => user.token === cookies.token);
+
+	// const accessToken = verifyToken(parseToken(req.headers.authorization));
+	// const refreshToken = verifyToken(cookies.token);
+
+	return res.status(StatusCodes.OK).send(user);
 };

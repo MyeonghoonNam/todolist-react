@@ -12,9 +12,10 @@ type Errors = {
 };
 
 const LoginForm = () => {
-	const [accessToken, setAccessToken] = useLocalStorage('token', '');
+	const [, setAccessToken] = useLocalStorage('token', '');
+	const [, setCookie] = useCookies(['token']);
+
 	const navigate = useNavigate();
-	const [cookies, setCookie] = useCookies(['token']);
 
 	const { values, errors, setErrors, handleChange, handleSubmit } = useForm({
 		initialState: {

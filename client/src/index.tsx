@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import GlobalStyle from '@styles/global';
 
 import { CookiesProvider } from 'react-cookie';
 
@@ -9,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { BrowserRouter } from 'react-router-dom';
 
+import GlobalStyle from '@styles/global';
 import { store, persistor } from './store';
 
 import App from './App';
