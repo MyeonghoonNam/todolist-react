@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
 import { login } from '@api/user';
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useCookies } from 'react-cookie';
 import useLocalStorage from '@hooks/useLocalStorage';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@store/.';
+import { isAuthUser } from '@store/user';
 
 type Errors = {
 	[key: string]: string;
@@ -15,7 +17,7 @@ const LoginForm = () => {
 	const [, setAccessToken] = useLocalStorage('token', '');
 	const [, setCookie] = useCookies(['token']);
 
-	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const { values, errors, setErrors, handleChange, handleSubmit } = useForm({
 		initialState: {
@@ -45,7 +47,8 @@ const LoginForm = () => {
 
 				setCookie('token', data.token.refreshToken);
 				setAccessToken(data.token.accessToken);
-				navigate('/');
+
+				dispatch(isAuthUser());
 			} catch (e) {
 				console.log(e);
 				if (e instanceof AxiosError) {
