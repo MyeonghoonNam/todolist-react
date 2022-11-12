@@ -84,8 +84,11 @@ export const auth = async (req: Request, res: Response) => {
 	const cookies = parseCookies(req.headers.cookie);
 	const user = userService.findUser((user) => user.token === cookies.token);
 
-	// const accessToken = verifyToken(parseToken(req.headers.authorization));
-	// const refreshToken = verifyToken(cookies.token);
+	// accessToken 검증
+	verifyToken(parseToken(req.headers.authorization));
+
+	// refreshToken 검증
+	verifyToken(cookies.token);
 
 	return res.status(StatusCodes.OK).send(user);
 };
