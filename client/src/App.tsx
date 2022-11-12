@@ -9,17 +9,20 @@ import PrivateRoute from '@components/PrivateRoute';
 import { isAuthUser } from '@store/user';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PublicRoute from '@components/PublicRoute';
-import { AppDispatch } from './store';
+import { AppDispatch, RootState } from './store';
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
+	const { isAuth } = useSelector((state: RootState) => state.users);
 
 	useEffect(() => {
-		dispatch(isAuthUser());
-	}, [dispatch]);
+		if (isAuth) {
+			dispatch(isAuthUser());
+		}
+	}, [isAuth, dispatch]);
 
 	return (
 		<Routes>
