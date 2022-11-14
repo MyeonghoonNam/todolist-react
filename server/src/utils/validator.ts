@@ -43,4 +43,5 @@ export const TODO_VALIDATION_ERRORS = {
 
 export const USER_AUTHORIZATION_ERROS = {
 	TOKEN_NOT_FOUND: '토큰이 존재하지 않습니다.',
+	TOKEN_EXPIRED: '토큰이 만료되었습니다.',
 };

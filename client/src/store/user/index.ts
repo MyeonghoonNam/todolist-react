@@ -69,7 +69,7 @@ export const users = createSlice({
 			state.isLoading = false;
 
 			localStorage.setItem('token', action.payload.token.accessToken);
-			setCookie('token', action.payload.token.accessToken);
+			setCookie('token', action.payload.token.refreshToken);
 		},
 	},
 });
