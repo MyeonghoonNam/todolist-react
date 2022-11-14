@@ -35,6 +35,9 @@ export const login = async (req: Request, res: Response) => {
 
 		return res.status(StatusCodes.OK).send({
 			message: '성공적으로 로그인 했습니다',
+			user: {
+				email: user.email,
+			},
 			token: {
 				refreshToken,
 				accessToken,
@@ -91,4 +94,23 @@ export const auth = async (req: Request, res: Response) => {
 	verifyToken(cookies.token);
 
 	return res.status(StatusCodes.OK).send(user);
+};
+
+export const refresh = async (req: Request, res: Response) => {
+	const cookies = parseCookies(req.headers.cookie);
+	const user = userService.findUser((user) => user.token === cookies.token);
+
+	if (user) {
+		const refreshToken = createToken({}, 'refresh');
+		const accessToken = createToken({ email: user.email }, 'access');
+
+		await userService.authUser(user, refreshToken);
+
+		return res.status(StatusCodes.OK).send({
+			token: {
+				refreshToken,
+				accessToken,
+			},
+		});
+	}
 };
