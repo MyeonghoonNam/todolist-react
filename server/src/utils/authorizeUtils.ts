@@ -30,5 +30,18 @@ export const createToken = (
 };
 
 export const verifyToken = (token: string) => {
-	return jwt.verify(token, JWT_TOKEN_SALT);
+	let decoded = null;
+
+	try {
+		decoded = jwt.verify(token, JWT_TOKEN_SALT);
+
+		return {
+			ok: true,
+			decoded,
+		};
+	} catch (e) {
+		return {
+			ok: false,
+		};
+	}
 };
