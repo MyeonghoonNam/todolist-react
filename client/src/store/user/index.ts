@@ -3,15 +3,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as api from '@api/user';
 
 import { User, UserLoginInput } from '@interfaces/User';
-import { setCookie } from '@utils/cookies';
+import { removeCookie, setCookie } from '@utils/cookies';
 
 const RESOURCE = 'users';
 
 export const isAuthUser = createAsyncThunk(
 	`${RESOURCE}/isAuthUser`,
 	async () => {
-		const { data } = await api.auth();
-		const { id, email } = data;
+		const {
+			data: { id, email },
+		} = await api.auth();
 
 		const user = { id, email };
 
@@ -59,6 +60,9 @@ export const users = createSlice({
 			state.user = {} as User;
 			state.isAuth = false;
 			state.isLoading = false;
+
+			localStorage.removeItem('token');
+			removeCookie('token');
 		},
 		[login.pending.type]: (state) => {
 			state.isLoading = true;
