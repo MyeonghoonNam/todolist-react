@@ -25,7 +25,10 @@ const onRrefreshed = (token: string) => {
 
 const onRefresh = async (): Promise<string | void> => {
 	try {
-		const { data: token } = await api.get(refreshURL);
+		const {
+			data: { token },
+		} = await api.get(refreshURL);
+
 		const { accessToken, refreshToken } = token;
 
 		lock = false;
@@ -72,6 +75,7 @@ baseInstance.interceptors.response.use(
 			response: { status },
 		} = err;
 		const originalRequest = config;
+		originalRequest.headers = { ...originalRequest.headers };
 
 		if (config.url === refreshURL || status !== 401) return Promise.reject(err);
 
