@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import * as api from '@api/user';
 
-import User from '@interfaces/User';
+import { User, UserLoginInput } from '@interfaces/User';
+import { setCookie } from '@utils/cookies';
 
 const RESOURCE = 'users';
 
@@ -15,6 +16,17 @@ export const isAuthUser = createAsyncThunk(
 		const user = { id, email };
 
 		return user;
+	},
+);
+
+export const login = createAsyncThunk(
+	`${RESOURCE}/login`,
+	async ({ email, password }: UserLoginInput) => {
+		const {
+			data: { token, user },
+		} = await api.login({ email, password });
+
+		return { token, user };
 	},
 );
 
@@ -47,6 +59,17 @@ export const users = createSlice({
 			state.user = {} as User;
 			state.isAuth = false;
 			state.isLoading = false;
+		},
+		[login.pending.type]: (state) => {
+			state.isLoading = true;
+		},
+		[login.fulfilled.type]: (state, action) => {
+			state.user = action.payload.user;
+			state.isAuth = true;
+			state.isLoading = false;
+
+			localStorage.setItem('token', action.payload.token.accessToken);
+			setCookie('token', action.payload.token.accessToken);
 		},
 	},
 });
