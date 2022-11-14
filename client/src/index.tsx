@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
 import { CookiesProvider } from 'react-cookie';
-
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-
 import { BrowserRouter } from 'react-router-dom';
-
 import GlobalStyle from '@styles/global';
-import { store, persistor } from './store';
+import { store } from './store';
 
 import App from './App';
 
@@ -21,12 +16,10 @@ root.render(
 	<React.StrictMode>
 		<CookiesProvider>
 			<Provider store={store}>
-				<PersistGate persistor={persistor}>
-					<BrowserRouter>
-						<GlobalStyle />
-						<App />
-					</BrowserRouter>
-				</PersistGate>
+				<BrowserRouter>
+					<GlobalStyle />
+					<App />
+				</BrowserRouter>
 			</Provider>
 		</CookiesProvider>
 	</React.StrictMode>,

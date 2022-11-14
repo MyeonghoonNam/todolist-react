@@ -1,14 +1,10 @@
 import type { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import {
-	loginValidator,
-	USER_AUTHORIZATION_ERROS,
-	USER_VALIDATION_ERRORS,
-} from '../utils/validator';
+import { loginValidator, USER_VALIDATION_ERRORS } from '../utils/validator';
 import { createError } from '../utils/responseUtils';
-import { createToken, verifyToken } from '../utils/authorizeUtils';
-import { parseCookies, parseToken } from '../utils/parseString';
+import { createToken } from '../utils/authorizeUtils';
+import { parseCookies } from '../utils/parseString';
 
 import { UserInput } from '../interfaces/users';
 
@@ -78,20 +74,14 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 export const auth = async (req: Request, res: Response) => {
-	if (!req.headers.authorization) {
-		return res
-			.status(StatusCodes.UNAUTHORIZED)
-			.send(createError(USER_AUTHORIZATION_ERROS.TOKEN_NOT_FOUND));
-	}
-
 	const cookies = parseCookies(req.headers.cookie);
 	const user = userService.findUser((user) => user.token === cookies.token);
 
-	// accessToken 검증
-	verifyToken(parseToken(req.headers.authorization));
-
-	// refreshToken 검증
-	verifyToken(cookies.token);
+	if (!user) {
+		return res
+			.status(StatusCodes.BAD_REQUEST)
+			.send(createError(USER_VALIDATION_ERRORS.USER_NOT_FOUND));
+	}
 
 	return res.status(StatusCodes.OK).send(user);
 };
@@ -113,4 +103,8 @@ export const refresh = async (req: Request, res: Response) => {
 			},
 		});
 	}
+
+	return res
+		.status(StatusCodes.BAD_REQUEST)
+		.send(createError(USER_VALIDATION_ERRORS.USER_NOT_FOUND));
 };
