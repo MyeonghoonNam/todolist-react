@@ -32,6 +32,7 @@ export const login = async (req: Request, res: Response) => {
 		return res.status(StatusCodes.OK).send({
 			message: '성공적으로 로그인 했습니다',
 			user: {
+				id: user.id,
 				email: user.email,
 			},
 			token: {
