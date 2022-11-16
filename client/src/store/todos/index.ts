@@ -8,16 +8,16 @@ const RESOURCE = 'todos';
 
 export const getTodoList = createAsyncThunk(
 	`${RESOURCE}/getTodoList`,
-	async () => {
-		const { data } = await api.getTodoList();
+	async ({ userId }: { userId: string }) => {
+		const { data } = await api.getTodoList(userId);
 		return data;
 	},
 );
 
 export const addTodo = createAsyncThunk(
 	`${RESOURCE}/addTodo`,
-	async ({ title }: { title: string }) => {
-		const { data } = await api.createTodo({ title });
+	async ({ title, userId }: { title: string; userId: string }) => {
+		const { data } = await api.createTodo({ title, userId });
 		return data;
 	},
 );
