@@ -1,8 +1,10 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
-import { AxiosError } from 'axios';
-import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@store/.';
 import { login } from '@store/user';
 
@@ -55,34 +57,40 @@ const LoginForm = () => {
 	});
 
 	return (
-		<Container onSubmit={handleSubmit}>
-			<Title>Login</Title>
-			<Input
-				type="text"
-				name="email"
-				placeholder="Email"
-				onChange={handleChange}
-			/>
-			{errors.email && <ErrorText>{errors.email}</ErrorText>}
-			<Input
-				type="password"
-				name="password"
-				placeholder="Password"
-				onChange={handleChange}
-				css={css`
-					margin-top: 8px;
-				`}
-			/>
-			{errors.password && <ErrorText>{errors.password}</ErrorText>}
-			<Button
-				type="submit"
-				css={css`
-					margin-top: 8px;
-				`}
-			>
-				Login
-			</Button>
-		</Container>
+		<>
+			<Container onSubmit={handleSubmit}>
+				<Title>Login</Title>
+				<Input
+					type="text"
+					name="email"
+					placeholder="Email"
+					onChange={handleChange}
+				/>
+				{errors.email && <ErrorText>{errors.email}</ErrorText>}
+				<Input
+					type="password"
+					name="password"
+					placeholder="Password"
+					onChange={handleChange}
+					css={css`
+						margin-top: 8px;
+					`}
+				/>
+				{errors.password && <ErrorText>{errors.password}</ErrorText>}
+				<Button
+					type="submit"
+					css={css`
+						margin-top: 8px;
+					`}
+				>
+					Login
+				</Button>
+			</Container>
+
+			<SignUpLink>
+				<Link to="/signup">회원가입</Link>
+			</SignUpLink>
+		</>
 	);
 };
 
@@ -141,6 +149,12 @@ const Button = styled.button`
 	&:disabled {
 		background-color: #888;
 	}
+`;
+
+const SignUpLink = styled.span`
+	color: blue;
+	margin-top: 5px;
+	border-bottom: 1px solid;
 `;
 
 export default LoginForm;
