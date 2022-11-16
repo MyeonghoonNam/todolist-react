@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
-import { AppDispatch } from '@store/.';
+import { AppDispatch, RootState } from '@store/.';
 import { login } from '@store/user';
 
 type Errors = {
@@ -14,8 +13,11 @@ type Errors = {
 
 const LoginForm = () => {
 	const dispatch = useDispatch<AppDispatch>();
+	const {
+		errors: { loginError },
+	} = useSelector((store: RootState) => store.users);
 
-	const { values, errors, setErrors, handleChange, handleSubmit } = useForm({
+	const { values, errors, handleChange, handleSubmit } = useForm({
 		initialState: {
 			email: '',
 			password: '',
@@ -37,22 +39,8 @@ const LoginForm = () => {
 			return newErrors;
 		},
 		onSubmit: async () => {
-			try {
-				const { email, password } = values;
-				dispatch(login({ email, password }));
-			} catch (e) {
-				console.log(e);
-				if (e instanceof AxiosError) {
-					if (e.response?.status === 400) {
-						const message = e.response?.data.details;
-
-						setErrors((state) => ({
-							...state,
-							password: message,
-						}));
-					}
-				}
-			}
+			const { email, password } = values;
+			dispatch(login({ email, password }));
 		},
 	});
 
@@ -77,6 +65,7 @@ const LoginForm = () => {
 					`}
 				/>
 				{errors.password && <ErrorText>{errors.password}</ErrorText>}
+				{loginError.status && <ErrorText>{loginError.message}</ErrorText>}
 				<Button
 					type="submit"
 					css={css`
