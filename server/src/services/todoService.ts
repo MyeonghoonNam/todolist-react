@@ -11,7 +11,6 @@ export const createTodo = async ({ title, userId }: Partial<Todo>) => {
 };
 
 export const findTodos = (userId: string) => {
-	console.log(db.data?.todos);
 	const todos = db.data?.todos.filter((todo) => todo.userId === userId);
 	return todos;
 };
