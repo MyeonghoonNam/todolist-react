@@ -2,9 +2,13 @@ import api from '@api/index';
 
 const RESOURCE = '/todos';
 
-export const getTodoList = async () => {
+export const getTodoList = async (userId: string) => {
 	try {
-		const response = await api.get(`${RESOURCE}`);
+		const config = {
+			params: { userId },
+		};
+
+		const response = await api.get(`${RESOURCE}`, config);
 
 		return response;
 	} catch (error) {

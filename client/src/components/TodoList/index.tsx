@@ -8,10 +8,11 @@ import { getTodoList } from '@store/todos';
 const TodoList = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { data: todos } = useSelector((store: RootState) => store.todos);
+	const { user } = useSelector((store: RootState) => store.users);
 
 	useEffect(() => {
-		dispatch(getTodoList());
-	}, [dispatch]);
+		dispatch(getTodoList({ userId: user.id }));
+	}, [dispatch, user]);
 
 	return (
 		<Container>

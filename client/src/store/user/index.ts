@@ -35,12 +35,24 @@ export interface UsersState {
 	user: User;
 	isAuth: boolean;
 	isLoading: boolean;
+	errors: {
+		loginError: {
+			status: boolean;
+			message: string;
+		};
+	};
 }
 
 const initialState: UsersState = {
 	user: {} as User,
 	isAuth: false,
 	isLoading: false,
+	errors: {
+		loginError: {
+			status: false,
+			message: '',
+		},
+	},
 };
 
 export const users = createSlice({
@@ -71,9 +83,17 @@ export const users = createSlice({
 			state.user = action.payload.user;
 			state.isAuth = true;
 			state.isLoading = false;
+			state.errors.loginError = { status: false, message: '' };
 
 			localStorage.setItem('token', action.payload.token.accessToken);
 			setCookie('token', action.payload.token.refreshToken);
+		},
+		[login.rejected.type]: (state) => {
+			state.isLoading = false;
+			state.errors.loginError = {
+				status: true,
+				message: '잘못된 이메일과 비밀번호 입니다.',
+			};
 		},
 	},
 });

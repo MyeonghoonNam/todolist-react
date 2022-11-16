@@ -1,9 +1,8 @@
 export interface Todo {
-	createdAt: string;
 	id: string;
+	userId: string;
 	title: string;
 	complete: boolean;
+	createdAt: string;
 	updatedAt: string;
 }
-
-export type TodoInput = Pick<Todo, 'title'>;
