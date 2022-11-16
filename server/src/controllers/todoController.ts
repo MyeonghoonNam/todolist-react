@@ -4,13 +4,12 @@ import { StatusCodes } from 'http-status-codes';
 import * as todoService from '../services/todoService';
 import { createError } from '../utils/responseUtils';
 import { TODO_VALIDATION_ERRORS } from '../utils/validator';
-import type { TodoInput } from '../interfaces/todos';
 
 export const createTodo = async (req: Request, res: Response) => {
-	const { title }: TodoInput = req.body;
+	const { title, userId } = req.body;
 
 	if (title) {
-		const todo = await todoService.createTodo({ title });
+		const todo = await todoService.createTodo({ title, userId });
 
 		return res.status(StatusCodes.OK).send(todo);
 	}
@@ -21,10 +20,14 @@ export const createTodo = async (req: Request, res: Response) => {
 };
 
 export const getTodos = async (req: Request, res: Response) => {
-	const todos = todoService.findTodos();
+	const { userId } = req.query;
 
-	if (todos) {
-		return res.status(StatusCodes.OK).send(todos);
+	if (userId) {
+		const todos = todoService.findTodos(userId as string);
+
+		if (todos) {
+			return res.status(StatusCodes.OK).send(todos);
+		}
 	}
 
 	return res
