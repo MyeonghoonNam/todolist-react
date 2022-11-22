@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"allowJs": true,
 		"target": "ES5",
-		"module": "ES2015",
+		"module": "esnext",
 		"skipLibCheck": true,
 		"outDir": "build",
 		"esModuleInterop": true,
