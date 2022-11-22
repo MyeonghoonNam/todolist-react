@@ -1,15 +1,17 @@
+import { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import PrivateRoute from '@components/PrivateRoute';
-import PublicRoute from '@components/PublicRoute';
-
-import LoginPage from '@pages/LoginPage';
-import SignUpPage from '@pages/SignUpPage';
-import MainPage from '@pages/MainPage';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+
 import { isAuthUser } from '@store/user';
 import { AppDispatch, RootState } from './store';
+
+const PrivateRoute = lazy(() => import('@components/PrivateRoute'));
+const PublicRoute = lazy(() => import('@components/PublicRoute'));
+
+const LoginPage = lazy(() => import('@pages/LoginPage'));
+const SignUpPage = lazy(() => import('@pages/SignUpPage'));
+const MainPage = lazy(() => import('@pages/MainPage'));
 
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -24,16 +26,18 @@ const App = () => {
 	}
 
 	return (
-		<Routes>
-			<Route element={<PublicRoute />}>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/signup" element={<SignUpPage />} />
-			</Route>
+		<Suspense>
+			<Routes>
+				<Route element={<PublicRoute />}>
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/signup" element={<SignUpPage />} />
+				</Route>
 
-			<Route element={<PrivateRoute />}>
-				<Route path="/" element={<MainPage />} />
-			</Route>
-		</Routes>
+				<Route element={<PrivateRoute />}>
+					<Route path="/" element={<MainPage />} />
+				</Route>
+			</Routes>
+		</Suspense>
 	);
 };
 
