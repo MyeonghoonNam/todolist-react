@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
-import SignUpForm from '@components/SignUpForm';
+import { Suspense, lazy } from 'react';
+
+const SignUpForm = lazy(() => import('@components//SignUpForm'));
 
 const SignUpPage = () => {
 	return (
-		<Container>
-			<SignUpForm />
-		</Container>
+		<Suspense>
+			<Container>
+				<SignUpForm />
+			</Container>
+		</Suspense>
 	);
 };
 
