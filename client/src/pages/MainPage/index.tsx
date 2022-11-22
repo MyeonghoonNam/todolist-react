@@ -1,16 +1,20 @@
 import styled from '@emotion/styled';
 
-import Header from '@components/Header';
-import InputForm from '@components/InputForm';
-import TodoList from '@components/TodoList';
+import { Suspense, lazy } from 'react';
+
+const Header = lazy(() => import('@components/Header'));
+const InputForm = lazy(() => import('@components/InputForm'));
+const TodoList = lazy(() => import('@components/TodoList'));
 
 const MainPage = () => {
 	return (
-		<Container>
-			<Header />
-			<InputForm />
-			<TodoList />
-		</Container>
+		<Suspense>
+			<Container>
+				<Header />
+				<InputForm />
+				<TodoList />
+			</Container>
+		</Suspense>
 	);
 };
 
