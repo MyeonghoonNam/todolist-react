@@ -1,21 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import useForm from '@hooks/useForm';
-import { AppDispatch, RootState } from '@store/.';
-import { login } from '@store/user';
+import useLogin from '@hooks/useLogin';
 
-type Errors = {
+interface Errors {
 	[key: string]: string;
-};
+}
 
 const LoginForm = () => {
-	const dispatch = useDispatch<AppDispatch>();
-	const {
-		errors: { loginError },
-	} = useSelector((store: RootState) => store.users);
+	const { mutate: login } = useLogin();
 
 	const { values, errors, handleChange, handleSubmit } = useForm({
 		initialState: {
@@ -40,7 +35,7 @@ const LoginForm = () => {
 		},
 		onSubmit: async () => {
 			const { email, password } = values;
-			dispatch(login({ email, password }));
+			login({ email, password });
 		},
 	});
 
@@ -65,7 +60,6 @@ const LoginForm = () => {
 					`}
 				/>
 				{errors.password && <ErrorText>{errors.password}</ErrorText>}
-				{loginError.status && <ErrorText>{loginError.message}</ErrorText>}
 				<Button
 					type="submit"
 					css={css`
