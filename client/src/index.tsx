@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { CookiesProvider } from 'react-cookie';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import GlobalStyle from '@styles/global';
-import { store } from './store';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import App from './App';
 
@@ -12,15 +12,18 @@ const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement,
 );
 
+const queryClient = new QueryClient();
+
 root.render(
 	<React.StrictMode>
 		<CookiesProvider>
-			<Provider store={store}>
+			<QueryClientProvider client={queryClient}>
 				<BrowserRouter>
 					<GlobalStyle />
 					<App />
+					<ReactQueryDevtools initialIsOpen={false} />
 				</BrowserRouter>
-			</Provider>
+			</QueryClientProvider>
 		</CookiesProvider>
 	</React.StrictMode>,
 );
