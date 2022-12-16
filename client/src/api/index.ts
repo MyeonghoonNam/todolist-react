@@ -27,7 +27,7 @@ const onRefresh = async (): Promise<string | void> => {
 	try {
 		const {
 			data: { token },
-		} = await api.get(refreshURL);
+		} = await baseInstance.get(refreshURL);
 
 		const { accessToken, refreshToken } = token;
 
@@ -68,7 +68,10 @@ baseInstance.interceptors.request.use((config) => {
 });
 
 baseInstance.interceptors.response.use(
-	(res) => res,
+	(res) => {
+		console.log(res);
+		return res;
+	},
 	async (err) => {
 		const {
 			config,
@@ -100,15 +103,4 @@ baseInstance.interceptors.response.use(
 	},
 );
 
-const api = {
-	get: (url: string, config?: object) => baseInstance.get(url, config),
-	post: (url: string, data: object, config?: object) =>
-		baseInstance.post(url, data, config),
-	put: (url: string, data: object, config?: object) =>
-		baseInstance.put(url, data, config),
-	patch: (url: string, data: object, config?: object) =>
-		baseInstance.patch(url, data, config),
-	delete: (url: string, config?: object) => baseInstance.delete(url, config),
-};
-
-export default api;
+export default baseInstance;
