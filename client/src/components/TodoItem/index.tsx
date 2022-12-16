@@ -6,38 +6,34 @@ import color from '@assets/color';
 import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeTodo, updateTodo } from '@store/todos';
-import { AppDispatch } from '@store/index';
 import Spinner from '@components/Spinner';
 
 const TodoItem = ({ id, title, complete }: Todo) => {
 	const [loading, setLoading] = useState(false);
-	const dispatch = useDispatch<AppDispatch>();
 
 	const handleChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => {
 			try {
 				const complete = e.target.checked;
-				dispatch(updateTodo({ id, title, complete }));
+				// dispatch(updateTodo({ id, title, complete }));
 			} catch (e) {
 				console.error(e);
 			}
 		},
-		[dispatch, title, id],
+		[title, id],
 	);
 
 	const handleClick = useCallback(async () => {
 		try {
 			setLoading(() => true);
 
-			await dispatch(removeTodo({ id }));
+			// await dispatch(removeTodo({ id }));
 		} catch (e) {
 			console.error(e);
 		} finally {
 			setLoading(() => false);
 		}
-	}, [dispatch, id]);
+	}, [id]);
 
 	return (
 		<Container>

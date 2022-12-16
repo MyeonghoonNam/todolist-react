@@ -4,34 +4,24 @@ import font from '@assets/font';
 import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTodo } from '@store/todos';
-import { AppDispatch, RootState } from '@store/index';
 import Spinner from '@components/Spinner';
 
 const InputForm = () => {
 	const [keyword, setKeyword] = useState('');
 	const [loading, setLoading] = useState(false);
 
-	const dispatch = useDispatch<AppDispatch>();
-	const { user } = useSelector((store: RootState) => store.users);
+	const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+		try {
+			setLoading(() => true);
 
-	const handleSubmit = useCallback(
-		async (e: FormEvent<HTMLFormElement>) => {
-			try {
-				setLoading(() => true);
-
-				e.preventDefault();
-				await dispatch(addTodo({ title: keyword, userId: user.id }));
-				setKeyword(() => '');
-			} catch (e) {
-				console.error(e);
-			} finally {
-				setLoading(() => false);
-			}
-		},
-		[dispatch, keyword, user],
-	);
+			e.preventDefault();
+			setKeyword(() => '');
+		} catch (e) {
+			console.error(e);
+		} finally {
+			setLoading(() => false);
+		}
+	}, []);
 
 	const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 		setKeyword(() => e.target.value);
