@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { useState } from 'react';
 
-const useLocalStorage = <T extends {}>(key: string, initialState: T) => {
+const useLocalStorage = <T>(key: string, initialState: T) => {
 	const [value, setValue] = useState(() => {
 		try {
 			const item = localStorage.getItem(key);

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from 'react';
 
-const useAsync = <T extends {}>(
+const useAsync = <T>(
 	callback: () => Promise<any>,
 	deps: unknown[] = [],
 	skip = false,
