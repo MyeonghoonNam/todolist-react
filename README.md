@@ -2,9 +2,9 @@
 
 ### Client
 
-- React (create-react-app typescript template)
+- React (CRA)
 - TypeScript
-- Redux(rtk)
+- Redux(rtk) -> react-query v4
 - Storybook
 
 ### Server
