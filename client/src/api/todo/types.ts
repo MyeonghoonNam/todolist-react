@@ -1,10 +1,10 @@
 export interface Todo {
-	title: string;
-	userId: string;
-	complete: boolean;
-	id: string;
-	createdAt: string;
-	updatedAt: string;
+  title: string;
+  userId: string;
+  complete: boolean;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type TodoFormInput = Pick<Todo, 'title' | 'userId'>;

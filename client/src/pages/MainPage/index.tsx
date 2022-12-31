@@ -7,24 +7,24 @@ const InputForm = lazy(() => import('@components/InputForm'));
 const TodoList = lazy(() => import('@components/TodoList'));
 
 const MainPage = () => {
-	return (
-		<Suspense>
-			<Container>
-				<Header />
-				<InputForm />
-				<TodoList />
-			</Container>
-		</Suspense>
-	);
+  return (
+    <Suspense>
+      <Container>
+        <Header />
+        <InputForm />
+        <TodoList />
+      </Container>
+    </Suspense>
+  );
 };
 
 const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	max-width: 600px;
-	margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 export default MainPage;

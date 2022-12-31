@@ -2,39 +2,39 @@
 import { useCallback, useEffect, useState } from 'react';
 
 const useAsync = <T>(
-	callback: () => Promise<any>,
-	deps: unknown[] = [],
-	skip = false,
+  callback: () => Promise<any>,
+  deps: unknown[] = [],
+  skip = false,
 ): {
-	state: T | null;
-	loading: boolean;
-	error: boolean;
-	fetchData: () => Promise<void>;
+  state: T | null;
+  loading: boolean;
+  error: boolean;
+  fetchData: () => Promise<void>;
 } => {
-	const [state, setState] = useState<T | null>(null);
-	const [error, setError] = useState(false);
-	const [loading, setLoading] = useState<boolean>(false);
+  const [state, setState] = useState<T | null>(null);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-	const fetchData = useCallback(async () => {
-		try {
-			setLoading(true);
-			const data = await callback();
-			setState(() => data);
-		} catch (e) {
-			setError(() => true);
-		} finally {
-			setLoading(false);
-		}
-	}, [callback]);
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await callback();
+      setState(() => data);
+    } catch (e) {
+      setError(() => true);
+    } finally {
+      setLoading(false);
+    }
+  }, [callback]);
 
-	useEffect(() => {
-		if (skip) return;
-		fetchData();
+  useEffect(() => {
+    if (skip) return;
+    fetchData();
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, deps);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
-	return { state, loading, error, fetchData };
+  return { state, loading, error, fetchData };
 };
 
 export default useAsync;

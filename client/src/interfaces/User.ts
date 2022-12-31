@@ -1,9 +1,9 @@
 export interface User {
-	id: string;
-	email: string;
+  id: string;
+  email: string;
 }
 
 export interface UserLoginInput {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 }
