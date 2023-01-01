@@ -11,54 +11,54 @@ import type { User } from '../interfaces/users';
 const dirname = path.resolve();
 
 export interface Data {
-	users: User[];
-	todos: Todo[];
-	suggestList: string[];
+  users: User[];
+  todos: Todo[];
+  suggestList: string[];
 }
 
 export let db: Low<Data>;
 
 const initDatabase = async () => {
-	const filePath = join(dirname, './db/db.json');
-	const file = await fs.readFile(filePath).catch(() => void 0);
+  const filePath = join(dirname, './db/db.json');
+  const file = await fs.readFile(filePath).catch(() => void 0);
 
-	if (!file) {
-		const dataFilePath = join(dirname, './db/data.json');
-		const jsonFile = await fs.readFile(dataFilePath).catch(() => void 0);
-		const jsonData = JSON.parse(jsonFile?.toString() as string);
+  if (!file) {
+    const dataFilePath = join(dirname, './db/data.json');
+    const jsonFile = await fs.readFile(dataFilePath).catch(() => void 0);
+    const jsonData = JSON.parse(jsonFile?.toString() as string);
 
-		await fs.writeFile(filePath, JSON.stringify(jsonData));
-	}
+    await fs.writeFile(filePath, JSON.stringify(jsonData));
+  }
 
-	return filePath;
+  return filePath;
 };
 
 export const createConnection = async () => {
-	const filePath = await initDatabase();
+  const filePath = await initDatabase();
 
-	const adapter = new JSONFile<Data>(filePath);
+  const adapter = new JSONFile<Data>(filePath);
 
-	db = new Low<Data>(adapter);
+  db = new Low<Data>(adapter);
 
-	await db.read();
-	await db.write();
+  await db.read();
+  await db.write();
 };
 
 export const create = <T>(content: any): T => {
-	const timestamp = new Date().toISOString();
+  const timestamp = new Date().toISOString();
 
-	return {
-		...content,
-		id: nanoid(),
-		createdAt: timestamp,
-		updatedAt: timestamp,
-	};
+  return {
+    ...content,
+    id: nanoid(),
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
 };
 
 export const update = <T>(content: any): T => {
-	const timestamp = new Date().toISOString();
-	return {
-		...content,
-		updatedAt: timestamp,
-	};
+  const timestamp = new Date().toISOString();
+  return {
+    ...content,
+    updatedAt: timestamp,
+  };
 };

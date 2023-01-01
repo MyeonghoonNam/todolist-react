@@ -1,89 +1,88 @@
 {
-	"env": {
-		"browser": true,
-		"es2021": true
-	},
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"ecmaVersion": "latest",
-		"sourceType": "module"
-	},
-	"plugins": ["@typescript-eslint", "react-hooks"],
-	"extends": [
-		"airbnb",
-		"plugin:react/recommended",
-		"plugin:jsx-a11y/recommended",
-		"plugin:@typescript-eslint/recommended",
-		"plugin:prettier/recommended"
-	],
-	"rules": {
-		// "prettier/prettier": ["error", { "endOfLine": "auto" }],
-		"react/react-in-jsx-scope": "off",
-		"react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
-		"import/extensions": [
-			"error",
-			"ignorePackages",
-			{
-				"ts": "never",
-				"tsx": "never"
-			}
-		],
-		"react-hooks/rules-of-hooks": "error",
-		"react-hooks/exhaustive-deps": "warn",
-		"react/jsx-props-no-spreading": "off",
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": true,
-				"optionalDependencies": true,
-				"peerDependencies": true
-			}
-		],
-		"@typescript-eslint/no-var-requires": "off",
-		"no-nested-ternary": "off",
-		"consistent-return": "off",
-		"react/destructuring-assignment": [0, "always"],
-		"no-shadow": "off",
-		"default-param-last": 0,
-		"react/require-default-props": "off",
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "react-hooks"],
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": true,
+        "peerDependencies": true
+      }
+    ],
+    "@typescript-eslint/no-var-requires": "off",
+    "no-nested-ternary": "off",
+    "consistent-return": "off",
+    "react/destructuring-assignment": [0, "always"],
+    "no-shadow": "off",
+    "default-param-last": 0,
+    "react/require-default-props": "off",
 
-		"no-restricted-syntax": [
-			"error",
-			"WithStatement",
-			"BinaryExpression[operator='in']"
-		],
-		"react/function-component-definition": [
-			"error",
-			{
-				"namedComponents": ["function-declaration", "arrow-function"],
-				"unnamedComponents": "arrow-function"
-			}
-		],
-		"@typescript-eslint/ban-types": [
-			"error",
-			{
-				"types": {
-					"{}": false
-				}
-			}
-		],
-		"no-unused-expressions": ["error", { "allowShortCircuit": true }],
-		"import/prefer-default-export": "off",
-		"react/jsx-no-constructed-context-values": "off",
-		"no-param-reassign": "off",
-		"no-use-before-define": "off",
-		"no-console": "off",
-		"no-useless-catch": "off"
-	},
-	"settings": {
-		"import/parsers": {
-			"@typescript-eslint/parser": [".ts", ".tsx"]
-		},
-		"import/resolver": {
-			"typescript": {}
-		}
-	}
+    "no-restricted-syntax": [
+      "error",
+      "WithStatement",
+      "BinaryExpression[operator='in']"
+    ],
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": ["function-declaration", "arrow-function"],
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+    "import/prefer-default-export": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "no-param-reassign": "off",
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "no-useless-catch": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 }

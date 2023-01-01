@@ -9,18 +9,18 @@ const SignUpPage = lazy(() => import('@pages/SignUpPage'));
 const MainPage = lazy(() => import('@pages/MainPage'));
 
 const App = () => {
-	return (
-		<Suspense>
-			<Routes>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/signup" element={<SignUpPage />} />
-				<Route path="/" element={<MainPage />} />
-				{/* <Route element={<PublicRoute />} />
+  return (
+    <Suspense>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/" element={<MainPage />} />
+        {/* <Route element={<PublicRoute />} />
 
 				<Route element={<PrivateRoute />} /> */}
-			</Routes>
-		</Suspense>
-	);
+      </Routes>
+    </Suspense>
+  );
 };
 
 export default App;

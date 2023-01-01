@@ -15,21 +15,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
-	cors({
-		origin: true,
-		credentials: true,
-	}),
+  cors({
+    origin: true,
+    credentials: true,
+  }),
 );
 
 app.use('/todos', todoRouter);
 app.use('/users', userRouter);
 
 app.use((req, res, next) => {
-	next(createError(404));
+  next(createError(404));
 });
 
 app.use((err: Error & { status: number }, req: Request, res: Response) => {
-	return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err);
 });
 
 export default app;

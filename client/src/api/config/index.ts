@@ -4,13 +4,14 @@ import interceptor from './interceptor';
 import type { Instance } from './types';
 
 const createInterceptor = () => {
-	const instance: Instance = axios.create({
-		baseURL: process.env.REACT_APP_API_URL,
-	});
+  const instance: Instance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    withCredentials: true,
+  });
 
-	interceptor(instance);
+  interceptor(instance);
 
-	return instance;
+  return instance;
 };
 
 const config = createInterceptor();
