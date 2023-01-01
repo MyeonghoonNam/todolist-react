@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { removeCookie, setCookie } from '@utils/cookies';
 
-import type { Instance, ApiError } from './types';
+import type { Instance, ApiError, Refresh } from './types';
 
 const interceptor = (instance: Instance) => {
   const baseURL = process.env.REACT_APP_API_URL;
@@ -23,10 +23,8 @@ const interceptor = (instance: Instance) => {
   const onRefresh = async (): Promise<string | void> => {
     try {
       const {
-        data: { token },
-      } = await instance.get(refreshURL);
-
-      const { accessToken, refreshToken } = token;
+        token: { accessToken, refreshToken },
+      } = await instance.get<Refresh>(refreshURL);
 
       lock = false;
       onRrefreshed(accessToken);
@@ -51,12 +49,12 @@ const interceptor = (instance: Instance) => {
 
     let token: string | null = null;
 
-    if (config.url === refreshURL) {
+    if (config.url !== refreshURL) {
       token = localStorage.getItem('token');
     }
 
     if (token !== null) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.authorization = `Bearer ${token}`;
     }
 
     return config;
@@ -73,13 +71,15 @@ const interceptor = (instance: Instance) => {
         message: `${status} 네트워크 오류가 발생하였습니다.`,
       };
 
-      if (config.url === refreshURL || status !== 401)
+      if (config.url === refreshURL || status !== 401) {
+        console.log('401');
         return Promise.reject(error);
+      }
 
       if (lock) {
         return new Promise((resolve) => {
           subscribeTokenRefresh((token: string) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+            originalRequest.headers.authorization = `Bearer ${token}`;
             resolve(axios(originalRequest));
           });
         });
@@ -89,7 +89,7 @@ const interceptor = (instance: Instance) => {
       const accessToken = await onRefresh();
 
       if (typeof accessToken === 'string') {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+        config.headers.authorization = `Bearer ${accessToken}`;
         return axios(config);
       }
 

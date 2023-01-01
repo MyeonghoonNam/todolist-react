@@ -29,3 +29,10 @@ export interface ApiError {
   status: number;
   message: string;
 }
+
+export interface Refresh {
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
