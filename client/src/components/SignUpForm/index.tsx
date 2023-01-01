@@ -1,15 +1,16 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
-import { signUp } from '@api/user';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSignUp } from '@mutations/index';
 
 type Errors = {
   [key: string]: string;
 };
 
 const SignUpForm = () => {
+  const { mutateAsync } = useSignUp();
   const navigate = useNavigate();
 
   const { values, errors, setErrors, loading, handleChange, handleSubmit } =
@@ -44,7 +45,7 @@ const SignUpForm = () => {
       onSubmit: async () => {
         try {
           const { email, password } = values;
-          await signUp({ email, password });
+          await mutateAsync({ email, password });
           navigate('/login');
         } catch (e) {
           if (e instanceof AxiosError) {
