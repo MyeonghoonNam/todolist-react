@@ -21,7 +21,7 @@ const useUser = () => {
   };
 
   const removeUser = () => {
-    queryClient.setQueryData([QUERY_KEY], null);
+    queryClient.setQueryData(QUERY_KEY, null);
   };
 
   return { query, setUser, removeUser };
