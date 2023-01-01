@@ -13,7 +13,7 @@ const useLogin = () => {
       const { accessToken, refreshToken } = token;
 
       localStorage.setItem('token', accessToken);
-      setCookie('token', { token: refreshToken });
+      setCookie('token', refreshToken);
       setUser(user);
 
       navigate('/');
