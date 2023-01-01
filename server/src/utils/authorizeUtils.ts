@@ -18,7 +18,7 @@ export const createToken = (
     }
     case 'access': {
       token = jwt.sign(value, JWT_TOKEN_SALT, {
-        expiresIn: '3s',
+        expiresIn: '10h',
       });
 
       break;

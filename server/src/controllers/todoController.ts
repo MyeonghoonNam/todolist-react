@@ -24,7 +24,7 @@ export const getTodos = async (req: Request, res: Response) => {
 
   if (userId) {
     const todos = todoService.findTodos(userId as string);
-    console.log(todos);
+
     if (todos) {
       return res.status(StatusCodes.OK).send(todos);
     }

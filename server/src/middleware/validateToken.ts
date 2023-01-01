@@ -12,7 +12,6 @@ export const validateToken = (
   next: NextFunction,
 ) => {
   if (!req.headers.authorization) {
-    console.log(req.headers);
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .send(createError(USER_AUTHORIZATION_ERROS.TOKEN_NOT_FOUND));
@@ -23,10 +22,7 @@ export const validateToken = (
   const accessToken = verifyToken(parseToken(req.headers.authorization));
   const refreshToken = verifyToken(cookies.token);
 
-  console.log(accessToken);
-  console.log(refreshToken);
   if (!accessToken.ok || !refreshToken.ok) {
-    console.log('token refresh need');
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .send(createError(USER_AUTHORIZATION_ERROS.TOKEN_EXPIRED));
