@@ -4,9 +4,9 @@ import { getTodos } from './api';
 
 import type { QueryData, Todo } from './types';
 
-const useTodos = (userId?: string) => {
-  const QUERY_KEY = ['todos'];
+export const QUERY_KEY = ['todos'];
 
+const useTodos = (userId?: string) => {
   const query = useQuery<QueryData, ApiError, Todo[], string[]>(
     QUERY_KEY,
     () => getTodos(userId),
