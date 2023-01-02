@@ -1,7 +1,5 @@
-export interface Todo {
+export interface Props {
   id: string;
   title: string;
   complete: boolean;
-  createdAt?: string;
-  updatedAt?: string;
 }
