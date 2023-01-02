@@ -1,21 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import type { ApiError } from '@api/config/types';
-import { useUser } from '..';
 import { getTodos } from './api';
 
 import type { QueryData, Todo } from './types';
 
-const useTodos = () => {
-  const {
-    query: { data: user },
-  } = useUser();
+const useTodos = (userId?: string) => {
+  const QUERY_KEY = ['todos'];
 
-  const QUERY_KEY = ['todos', user?.id];
-
-  const query = useQuery<QueryData, ApiError, Todo[], (string | undefined)[]>(
+  const query = useQuery<QueryData, ApiError, Todo[], string[]>(
     QUERY_KEY,
-    () => getTodos(user?.id),
-    { enabled: !!user },
+    () => getTodos(userId),
+    { enabled: !!userId },
   );
 
   return query;
