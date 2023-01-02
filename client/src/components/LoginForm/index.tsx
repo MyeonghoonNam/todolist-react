@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import useForm from '@hooks/useForm';
+import { useForm } from '@hooks/index';
 import { useLogin } from '@mutations/index';
 
 interface Errors {

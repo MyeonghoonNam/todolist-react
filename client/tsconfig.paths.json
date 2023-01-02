@@ -6,7 +6,6 @@
       "@assets/*": ["./assets/*"],
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
-      "@interfaces/*": ["./interfaces/*"],
       "@mutations/*": ["./mutations/*"],
       "@pages/*": ["./pages/*"],
       "@queries/*": ["./queries/*"],

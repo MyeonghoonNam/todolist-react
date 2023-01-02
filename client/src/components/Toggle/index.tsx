@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { ChangeEvent, useCallback } from 'react';
-import useToggle from '@hooks/useToggle';
+import { useToggle } from '@hooks/index';
 
 interface Props {
   on: boolean;
