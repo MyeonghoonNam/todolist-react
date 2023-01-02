@@ -5,23 +5,26 @@ import color from '@assets/color';
 import { css } from '@emotion/react';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import Spinner from '@components/Spinner';
+import { useUser } from '@queries/index';
+import { useCreateTodo } from '@mutations/index';
 
 const InputForm = () => {
+  const {
+    query: { data: user },
+  } = useUser();
+
+  const { mutateAsync, isLoading } = useCreateTodo();
+
   const [keyword, setKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-    try {
-      setLoading(() => true);
-
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      user && (await mutateAsync({ title: keyword, userId: user.id }));
       setKeyword(() => '');
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(() => false);
-    }
-  }, []);
+    },
+    [keyword, mutateAsync, user],
+  );
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(() => e.target.value);
@@ -35,7 +38,7 @@ const InputForm = () => {
 
       <Input type="text" value={keyword} onChange={handleChange} autoFocus />
 
-      {loading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         <Button type="submit" css={PlusButtonStyle}>
