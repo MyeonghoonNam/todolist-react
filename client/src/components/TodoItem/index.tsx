@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Todo from '@interfaces/Todo';
 import Toggle from '@components/Toggle';
 import font from '@assets/font';
 import color from '@assets/color';
@@ -7,6 +6,7 @@ import { FaTrash } from 'react-icons/fa';
 import { css } from '@emotion/react';
 import { ChangeEvent, useCallback, useState } from 'react';
 import Spinner from '@components/Spinner';
+import type { Todo } from './types';
 
 const TodoItem = ({ id, title, complete }: Todo) => {
   const [loading, setLoading] = useState(false);
