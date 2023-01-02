@@ -1,3 +1,4 @@
-import type { Todo } from '@queries/useTodos/types';
-
-export type TodoUpdateInput = Pick<Todo, 'title' | 'complete'>;
+export interface TodoUpdateInput {
+  title: string;
+  complete: boolean;
+}

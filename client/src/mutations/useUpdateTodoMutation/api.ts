@@ -1,6 +1,6 @@
 import { api } from '@api/index';
 
-import { RESOURCE } from '@queries/useTodos/api';
+import { RESOURCE } from '@queries/useTodosQuery/api';
 
 import type { Todo } from '@interfaces/index';
 import type { TodoUpdateInput } from './types';

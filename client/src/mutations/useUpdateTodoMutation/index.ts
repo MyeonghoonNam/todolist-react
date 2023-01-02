@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEY } from '@queries/useTodos';
+import { QUERY_KEY } from '@queries/useTodosQuery';
 import { patchTodo } from './api';
 import type { TodoUpdateInput } from './types';
 
