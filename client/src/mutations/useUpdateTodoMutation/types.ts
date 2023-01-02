@@ -1,5 +1,4 @@
-export interface Props {
-  id: string;
+export interface TodoUpdateInput {
   title: string;
   complete: boolean;
 }

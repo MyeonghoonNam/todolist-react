@@ -1,39 +1,29 @@
+import { ChangeEvent, useCallback } from 'react';
 import styled from '@emotion/styled';
-import Toggle from '@components/Toggle';
+import { css } from '@emotion/react';
 import font from '@assets/font';
 import color from '@assets/color';
-import { FaTrash } from 'react-icons/fa';
-import { css } from '@emotion/react';
-import { ChangeEvent, useCallback, useState } from 'react';
+import Toggle from '@components/Toggle';
 import Spinner from '@components/Spinner';
-import type { Todo } from './types';
+import { FaTrash } from 'react-icons/fa';
+import { useDeleteTodo, useUpdateTodo } from '@mutations/index';
+import type { Props } from './types';
 
-const TodoItem = ({ id, title, complete }: Todo) => {
-  const [loading, setLoading] = useState(false);
+const TodoItem = ({ id, title, complete }: Props) => {
+  const { mutateAsync: setUpdateTodo } = useUpdateTodo(id);
+  const { mutateAsync: setDeleteTodo, isLoading } = useDeleteTodo();
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      try {
-        const complete = e.target.checked;
-        // dispatch(updateTodo({ id, title, complete }));
-      } catch (e) {
-        console.error(e);
-      }
+      const complete = e.target.checked;
+      setUpdateTodo({ title, complete });
     },
-    [title, id],
+    [title, setUpdateTodo],
   );
 
   const handleClick = useCallback(async () => {
-    try {
-      setLoading(() => true);
-
-      // await dispatch(removeTodo({ id }));
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(() => false);
-    }
-  }, [id]);
+    setDeleteTodo(id);
+  }, [id, setDeleteTodo]);
 
   return (
     <Container>
@@ -42,7 +32,7 @@ const TodoItem = ({ id, title, complete }: Todo) => {
       <Content>{complete ? <del>{title}</del> : title}</Content>
 
       <Button type="button" onClick={handleClick}>
-        {loading ? <Spinner /> : <FaTrash css={RemoveButtonStyle} />}
+        {isLoading ? <Spinner /> : <FaTrash css={RemoveButtonStyle} />}
       </Button>
     </Container>
   );
