@@ -1,66 +1,59 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { AxiosError } from 'axios';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignUp } from '@mutations/index';
 import { useForm } from '@hooks/index';
 
-type Errors = {
-  [key: string]: string;
-};
-
 const SignUpForm = () => {
-  const { mutateAsync } = useSignUp();
+  const { mutateAsync, isLoading } = useSignUp();
   const navigate = useNavigate();
 
-  const { values, errors, setErrors, loading, handleChange, handleSubmit } =
-    useForm({
-      initialState: {
-        email: '',
-        password: '',
-        passwordConfirm: '',
-      },
-      validate: ({ email, password, passwordConfirm }) => {
-        const newErrors: Errors = {};
+  const initialFormState = useMemo(
+    () => ({
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    }),
+    [],
+  );
 
-        const regEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-        const regPassword = /^[A-Za-z0-9]{8,12}$/;
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialState: initialFormState,
+    validate: ({ email, password, passwordConfirm }) => {
+      let emailError = null;
+      let passwordError = null;
+      let passwordConfirmError = null;
 
-        if (!email || !regEmail.test(email)) {
-          newErrors.email = '올바른 이메일을 입력해주세요.';
-        }
+      const regEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+      const regPassword = /^[A-Za-z0-9]{8,12}$/;
 
-        if (!password || !regPassword.test(password)) {
-          newErrors.password =
-            '최소 8자, 최대 12자에 해당하는 비밀번호를 입력해주세요.';
-        }
+      if (!email || !regEmail.test(email)) {
+        emailError = '올바른 이메일을 입력해주세요.';
+      }
 
-        if (password !== passwordConfirm) {
-          newErrors.passwordConfirm =
-            '재확인 비밀번호가 기존 비밀번호와 동일하게 다시 입력해주세요.';
-        }
+      if (!password || !regPassword.test(password)) {
+        passwordError =
+          '최소 8자, 최대 12자에 해당하는 비밀번호를 입력해주세요.';
+      }
 
-        return newErrors;
-      },
-      onSubmit: async () => {
-        try {
-          const { email, password } = values;
-          await mutateAsync({ email, password });
-          navigate('/login');
-        } catch (e) {
-          if (e instanceof AxiosError) {
-            if (e.response?.status === 409) {
-              const message = e.response?.data.details;
+      if (password !== passwordConfirm) {
+        passwordConfirmError =
+          '재확인 비밀번호가 기존 비밀번호와 동일하게 다시 입력해주세요.';
+      }
 
-              setErrors((state) => ({
-                ...state,
-                email: message,
-              }));
-            }
-          }
-        }
-      },
-    });
+      return {
+        email: emailError,
+        password: passwordError,
+        passwordConfirm: passwordConfirmError,
+      };
+    },
+    onSubmit: async () => {
+      const { email, password } = values;
+      await mutateAsync({ email, password });
+      navigate('/login');
+    },
+  });
 
   return (
     <Container onSubmit={handleSubmit} autoComplete="off">
@@ -96,7 +89,7 @@ const SignUpForm = () => {
       )}
       <Button
         type="submit"
-        disabled={loading}
+        disabled={isLoading}
         css={css`
           margin-top: 8px;
         `}

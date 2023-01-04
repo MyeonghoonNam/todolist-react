@@ -1,12 +1,9 @@
 import styled from '@emotion/styled';
-import useForm from '@hooks/useForm';
+import { useMemo } from 'react';
+import { useForm } from '@hooks/index';
 
 export default {
   title: 'Hooks/useForm',
-};
-
-type Errors = {
-  [key: string]: string;
 };
 
 const sleep = () => {
@@ -16,36 +13,39 @@ const sleep = () => {
 };
 
 export const Default = () => {
-  const { values, errors, loading, handleChange, handleSubmit } = useForm({
-    initialState: {
+  const initialFormState = useMemo(
+    () => ({
       id: '',
       password: '',
-    },
+    }),
+    [],
+  );
+
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialState: initialFormState,
     validate: ({ id, password }) => {
-      const newErrors: Errors = {};
+      let idError = null;
+      let passwordError = null;
 
       if (!id) {
-        newErrors.id = '아이디를 입력해주세요.';
+        idError = '아이디를 입력해주세요.';
       }
 
       if (!password) {
-        newErrors.password = '비밀번호를 입력해주세요.';
+        passwordError = '비밀번호를 입력해주세요.';
       }
 
-      return newErrors;
+      return {
+        id: idError,
+        password: passwordError,
+      };
     },
     onSubmit: async () => {
-      try {
-        await sleep();
-
-        // eslint-disable-next-line no-alert
-        alert(JSON.stringify(values));
-      } catch (e) {
-        console.log(e);
-      }
+      await sleep();
+      // eslint-disable-next-line no-alert
+      alert(JSON.stringify(values));
     },
   });
-  console.log(loading);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -62,9 +62,7 @@ export const Default = () => {
 
       {errors.password && <ErrorText>{errors.password}</ErrorText>}
 
-      <Button type="submit" disabled={loading}>
-        {loading ? 'Loading...' : 'Submit'}
-      </Button>
+      <Button type="submit">Submit</Button>
     </Form>
   );
 };

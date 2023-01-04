@@ -1,41 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useForm } from '@hooks/index';
 import { useLogin } from '@mutations/index';
 
-interface Errors {
-  [key: string]: string;
-}
-
 const LoginForm = () => {
-  const { mutateAsync } = useLogin();
+  const { mutateAsync, isLoading } = useLogin();
+  const navigate = useNavigate();
 
-  const { values, errors, handleChange, handleSubmit } = useForm({
-    initialState: {
+  const initialFormState = useMemo(
+    () => ({
       email: '',
       password: '',
-    },
+    }),
+    [],
+  );
+
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialState: initialFormState,
     validate: ({ email, password }) => {
-      const newErrors: Errors = {};
+      let emailError = null;
+      let passwordError = null;
 
       const regEmail = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
       const regPassword = /^[A-Za-z0-9]{8,12}$/;
 
       if (!email || !regEmail.test(email)) {
-        newErrors.email = '올바른 이메일을 입력해주세요.';
+        emailError = '올바른 이메일을 입력해주세요.';
       }
 
       if (!password || !regPassword.test(password)) {
-        newErrors.password = '올바른 비밀번호를 입력해주세요.';
+        passwordError = '올바른 비밀번호를 입력해주세요.';
       }
 
-      return newErrors;
+      return {
+        email: emailError,
+        password: passwordError,
+      };
     },
     onSubmit: async () => {
       const { email, password } = values;
       await mutateAsync({ email, password });
+      navigate('/');
     },
   });
 
@@ -62,6 +69,7 @@ const LoginForm = () => {
         {errors.password && <ErrorText>{errors.password}</ErrorText>}
         <Button
           type="submit"
+          disabled={isLoading}
           css={css`
             margin-top: 8px;
           `}
