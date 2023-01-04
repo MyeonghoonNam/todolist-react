@@ -1,17 +1,24 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from 'react';
+import { ErrorType, UseForm } from './types';
 
-interface Props {
-  initialState: {
-    [key: string]: string;
-  };
-  validate: (values: { [key: string]: string }) => { [key: string]: string };
-  onSubmit: () => Promise<void>;
-}
-
-const useForm = ({ initialState, validate, onSubmit }: Props) => {
+const useForm = <T extends object>({
+  initialState,
+  validate,
+  onSubmit,
+}: UseForm<T>) => {
   const [values, setValues] = useState(initialState);
-  const [errors, setErrors] = useState(initialState);
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<ErrorType<typeof initialState>>(() =>
+    Object.fromEntries(
+      Object.entries(initialState).map(([key]) => [[key], null]),
+    ),
+  );
+
+  const [hasFormError, setHasFormError] = useState(false);
+
+  const propertyLen = useMemo(
+    () => Object.keys(initialState).length,
+    [initialState],
+  );
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,28 +28,31 @@ const useForm = ({ initialState, validate, onSubmit }: Props) => {
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      setLoading(() => true);
 
       const newErrors = validate(values);
+      const validPropertyLen = Object.values(newErrors).filter(
+        (v) => v === null,
+      ).length;
 
-      if (Object.keys(newErrors).length === 0) {
+      const isValid = propertyLen === validPropertyLen;
+
+      if (isValid) {
         await onSubmit();
-      } else {
-        setErrors(newErrors);
       }
 
-      setLoading(() => false);
+      setHasFormError(!isValid);
+      setErrors(newErrors);
     },
-    [values, validate, onSubmit],
+    [values, validate, onSubmit, propertyLen],
   );
 
   return {
     values,
     errors,
     setErrors,
-    loading,
     handleChange,
     handleSubmit,
+    hasFormError,
   };
 };
 
