@@ -8,9 +8,6 @@ const useUser = () => {
 
   const query = useQuery(QUERY_KEY, auth, {
     enabled: false,
-    onSuccess: (res) => {
-      console.log(res, 'query');
-    },
     onError: (e) => {
       console.log(e);
     },

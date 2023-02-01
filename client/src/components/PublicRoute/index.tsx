@@ -1,8 +1,18 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const PublicRoute = () => {
-  // const { isAuth } = useSelector((state: RootState) => state.users);
-  // return isAuth ? <Navigate to="/" /> : <Outlet />;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
+
+  return <Outlet />;
 };
 
 export default PublicRoute;
